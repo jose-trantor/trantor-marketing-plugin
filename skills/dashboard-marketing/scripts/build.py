@@ -1,7 +1,10 @@
 """Fill the marketing dashboard template with one user's accounts.
 
 Usage:
-    python3 build.py config.json OUT_DIR
+    python3 build.py config.json OUT_DIR [--tabs AREAS]
+
+    AREAS is a comma-separated list: meta, instagram, facebook, ga4, resumen
+    Without --tabs, all areas are built (backward-compatible).
 
 config.json (every key is required unless marked optional):
 {
@@ -28,91 +31,72 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE = os.path.join(HERE, '..', 'assets', 'template')
+sys.path.insert(0, HERE)
 
-cfg_path, out = sys.argv[1], os.path.abspath(sys.argv[2])
+from build_common import BuildContext  # noqa: E402
+import build_meta as _meta
+import build_instagram as _ig
+import build_facebook as _fb
+import build_ga4 as _ga4
+import build_resumen as _resumen
+
+ALL_AREAS = ['meta', 'instagram', 'facebook', 'ga4', 'resumen']
+
+AREA_REQUIRED = {
+    'meta': ['brand', 'connector', 'meta_account_ids', 'meta_account_names'],
+    'instagram': ['brand', 'connector', 'ig_id', 'ig_username'],
+    'facebook': ['brand', 'connector', 'page_id', 'page_name'],
+    'ga4': ['brand', 'connector', 'ga4_property_id', 'ga4_name'],
+    'resumen': ['brand', 'connector'],
+}
+
+args = sys.argv[1:]
+if len(args) < 2:
+    raise SystemExit('Uso: python3 build.py config.json OUT_DIR [--tabs meta,instagram,...]')
+
+cfg_path, out = args[0], args[1]
 cfg = json.load(open(cfg_path))
-need = ['brand', 'connector', 'meta_account_ids', 'meta_account_names', 'ig_id', 'ig_username',
-        'page_id', 'page_name', 'ga4_property_id', 'ga4_name']
+
+tabs = ALL_AREAS
+if '--tabs' in args:
+    idx = args.index('--tabs')
+    tabs = [t.strip() for t in args[idx + 1].split(',')]
+    unknown = [t for t in tabs if t not in ALL_AREAS]
+    if unknown:
+        raise SystemExit('Áreas desconocidas: ' + ', '.join(unknown))
+
+need = list({k for t in tabs for k in AREA_REQUIRED.get(t, [])})
 missing = [k for k in need if not cfg.get(k)]
 if missing:
     raise SystemExit('Faltan datos en la configuración: ' + ', '.join(missing))
 
-ids = [str(x).replace('act_', '') for x in cfg['meta_account_ids']]
-text_tokens = {
-    '__LV_BRAND__': cfg['brand'],
-    '__LV_META_NAMES__': cfg['meta_account_names'],
-    '__LV_IG_USERNAME__': cfg['ig_username'].lstrip('@'),
-    '__LV_PAGE_NAME__': cfg['page_name'],
-    '__LV_GA4_NAME__': cfg['ga4_name'],
-    '__LV_LOCALE__': cfg.get('locale') or 'es-ES',
-    '__LV_CUR__': cfg.get('currency_symbol') or '$',
-    '__LV_UTC_OFFSET__': str(float(cfg.get('utc_offset_hours') or 0)).rstrip('0').rstrip('.') or '0',
-}
-value_tokens = {
-    '__LV_CONNECTOR__': cfg['connector'],
-    '__LV_META_ACCOUNT_IDS__': ids,
-    '__LV_IG_ID__': str(cfg['ig_id']),
-    '__LV_PAGE_ID__': str(cfg['page_id']),
-    '__LV_GA4_ID__': str(cfg['ga4_property_id']).replace('properties/', ''),
-}
+ctx = BuildContext(cfg, out)
+os.makedirs(ctx.out, exist_ok=True)
 
-def fill_text(s):
-    for k, v in text_tokens.items():
-        s = s.replace(k, v)
-    return s
+# Always write the dashboard skeleton: static files (HTML, CSS, JS) and params.
+# These are needed for the dashboard to render regardless of which areas are installed.
+# Tokens for areas not yet installed resolve to '' (safe — those sections are hidden by manifest).
+for f in sorted(os.listdir(os.path.join(TEMPLATE, 'files'))):
+    ctx.put('files', f, {'text': ctx.fill_text(open(os.path.join(TEMPLATE, 'files', f)).read())})
 
-campaign_ids = [str(x) for x in (cfg.get('meta_campaign_ids') or [])]
-
-def only_campaigns(ds):
-    """Limit a Meta Ads query to the chosen campaigns, if any were chosen."""
-    src = ds.get('source', {})
-    if not campaign_ids or src.get('tool') != 'meta_insights':
-        return ds
-    args = src.setdefault('args', {})
-    args['filters'] = list(args.get('filters') or []) + [{'field': 'campaign.id', 'operator': 'IN', 'value': campaign_ids}]
-    return ds
-
-def fill_value(v):
-    if isinstance(v, str):
-        return value_tokens.get(v, fill_text(v))
-    if isinstance(v, list):
-        return [fill_value(x) for x in v]
-    if isinstance(v, dict):
-        return {k: fill_value(x) for k, x in v.items()}
-    return v
-
-os.makedirs(out, exist_ok=True)
-writes = []
-
-def put(collection, doc_id, data):
-    d = os.path.join(out, collection.replace('/', '__'))
-    os.makedirs(d, exist_ok=True)
-    p = os.path.join(d, doc_id + '.json')
-    json.dump(data, open(p, 'w'), ensure_ascii=False)
-    writes.append({'op': 'set', 'collection': collection, 'doc_id': doc_id, 'file_path': p})
-
-# Default period: last 15 days up to yesterday, as the page computes it.
 y = dt.date.today() - dt.timedelta(days=1)
 day = lambda n: (dt.date.today() - dt.timedelta(days=n)).isoformat()
-params = {'periodo': 'last_15d', 'desde': day(15), 'hasta': y.isoformat(), 'desde_prev': day(30),
-          'hasta_prev': day(16), 'desde_7d': day(7), 'desde_30d': day(30)}
+ctx.put('dash', 'params', {
+    'periodo': 'last_15d', 'desde': day(15), 'hasta': y.isoformat(),
+    'desde_prev': day(30), 'hasta_prev': day(16), 'desde_7d': day(7), 'desde_30d': day(30),
+})
 
-put('dash', 'meta', fill_value(json.load(open(os.path.join(TEMPLATE, 'dash', 'meta.json')))))
-put('dash', 'params', params)
-for f in sorted(os.listdir(os.path.join(TEMPLATE, 'datasets'))):
-    put('datasets', f[:-5], only_campaigns(fill_value(json.load(open(os.path.join(TEMPLATE, 'datasets', f))))))
-for f in sorted(os.listdir(os.path.join(TEMPLATE, 'files'))):
-    put('files', f, {'text': fill_text(open(os.path.join(TEMPLATE, 'files', f)).read())})
+for tab in tabs:
+    if tab == 'meta':
+        _meta.build(ctx)
+    elif tab == 'instagram':
+        _ig.build(ctx)
+    elif tab == 'facebook':
+        _fb.build(ctx)
+    elif tab == 'ga4':
+        _ga4.build(ctx)
+    elif tab == 'resumen':
+        _resumen.build(ctx, cfg=cfg)
 
-left = []
-for w in writes:
-    s = open(w['file_path']).read()
-    if '__LV_' in s:
-        left.append(w['doc_id'])
-if left:
-    raise SystemExit('Quedan marcadores sin rellenar en: ' + ', '.join(left))
-
-batches = [writes[i:i + 50] for i in range(0, len(writes), 50)]
-for i, b in enumerate(batches, 1):
-    json.dump(b, open(os.path.join(out, f'writes-{i}.json'), 'w'), ensure_ascii=False, indent=1)
-print(json.dumps({'documents': len(writes), 'batches': [os.path.join(out, f'writes-{i}.json') for i in range(1, len(batches) + 1)]}, ensure_ascii=False))
+batch_paths = ctx.finish()
+print(json.dumps({'documents': len(ctx.writes), 'batches': batch_paths}, ensure_ascii=False))

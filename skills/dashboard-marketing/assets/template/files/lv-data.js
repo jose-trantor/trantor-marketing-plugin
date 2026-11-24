@@ -1,3 +1,35 @@
+// Read manifest.json from the files collection to control which tabs are visible.
+// If the fetch fails or the manifest is absent, all tabs remain visible (fallback = monolithic behavior).
+// 'cobertura' (Fuentes y método) is always visible — it documents all connectors, not area-specific data.
+(function () {
+  var ALWAYS_VISIBLE = ['cobertura'];
+  fetch('manifest.json')
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (manifest) {
+      if (!manifest || !Array.isArray(manifest.installed_tabs)) return;
+      var tabs = manifest.installed_tabs;
+      // Hide resumen when fewer than 2 distinct areas are installed
+      var areaCount = tabs.filter(function (t) { return t !== 'resumen'; }).length;
+      if (areaCount < 2) tabs = tabs.filter(function (t) { return t !== 'resumen'; });
+      document.querySelectorAll('button[data-tab]').forEach(function (btn) {
+        var name = btn.getAttribute('data-tab');
+        if (ALWAYS_VISIBLE.indexOf(name) !== -1) return;
+        if (tabs.indexOf(name) === -1) {
+          btn.setAttribute('hidden', '');
+          var section = document.getElementById(name);
+          if (section) section.setAttribute('hidden', '');
+        }
+      });
+      // If the active tab was hidden, switch to the first visible tab button
+      var active = document.querySelector('button[data-tab][aria-selected="true"]:not([hidden])');
+      if (!active) {
+        var first = document.querySelector('button[data-tab]:not([hidden])');
+        if (first) first.click();
+      }
+    })
+    .catch(function () { /* fallback: show all tabs */ });
+}());
+
 // Trantor meta_insights answers {rows, columns, cut} (with include_creative, also creatives: {ad_id: {body, media_type}}): one row per Meta object (and per day with time_increment "1"),
 // actions already flattened as actions_<type> / action_values_<type>; other action lists (video_thruplay_watched_actions)
 // arrive as [{action_type, value}] and are flattened here the same way. The rows are renamed to the names the Meta calcs use

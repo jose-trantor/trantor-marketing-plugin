@@ -12,6 +12,21 @@ El onboarding tiene dos partes:
 
 Cuando acabe, vuelve a la tarea que te pidió o pregúntale qué quiere hacer con su selección (paso 5).
 
+## Selección parcial por área (scope)
+
+Cuando un skill de área invoca el onboarding con un parámetro `scope`, el onboarding **solo pregunta por las cuentas de ese área** y omite el resto de preguntas del paso 4:
+
+| scope | Pregunta solo por |
+|-------|-------------------|
+| `meta_ads` | Cuentas publicitarias y campañas de Meta |
+| `instagram` | Cuenta de Instagram |
+| `facebook` | Página de Facebook |
+| `ga4` | Propiedad de Google Analytics 4 |
+
+Los pasos 1 a 3 (conexión) se ejecutan siempre independientemente del scope.
+
+**Reutilización en la misma conversación:** si en esta conversación ya se completó el onboarding para algún área (marca elegida, cuentas confirmadas), no vuelvas a preguntar por esos elementos. Solo haz las preguntas del scope actual que aún no se hayan respondido. Por ejemplo, si ya se eligió la cuenta publicitaria de Meta y ahora se solicita scope `instagram`, pregunta solo por la cuenta de Instagram; no repitas la pregunta de marca ni la de cuentas publicitarias.
+
 Habla con frases cortas y sin jerga: nada de "MCP", "herramientas", "OAuth", "IDs" ni "propiedad" a secas (di "tu web (Google Analytics)"). Di "la conexión con Trantor" y "tus cuentas". Muestra siempre nombres, nunca identificadores.
 
 ## Cómo preguntar

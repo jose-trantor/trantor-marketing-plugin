@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "brand": "",
+  "title": "",
+  "connector": "",
+  "installed_tabs": [],
+  "accounts": {
+    "meta_account_ids": null,
+    "meta_account_names": null,
+    "meta_campaign_ids": [],
+    "ig_id": null,
+    "ig_username": null,
+    "page_id": null,
+    "page_name": null,
+    "ga4_property_id": null,
+    "ga4_name": null
+  },
+  "locale": "es-ES",
+  "currency_symbol": "€",
+  "utc_offset_hours": 0
+}
