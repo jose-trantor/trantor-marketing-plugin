@@ -1,0 +1,16 @@
+{
+  "name": "trantor-marketing",
+  "description": "Plugin de marketing para Claude Code: crea dashboards en vivo con Meta Ads, Instagram, Facebook y Google Analytics 4.",
+  "owner": {
+    "name": "Trantor",
+    "url": "https://trantorai.ws"
+  },
+  "plugins": [
+    {
+      "name": "trantor-marketing",
+      "displayName": "Trantor Marketing",
+      "description": "Crea un dashboard de marketing en vivo con tus datos de Meta Ads, Instagram, Facebook y Google Analytics 4, con alertas priorizadas, comparativa con el periodo anterior y lecturas escritas por Claude.",
+      "source": "./"
+    }
+  ]
+}
