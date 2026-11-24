@@ -1,5 +1,5 @@
 {
- "description": "Visualizaciones pagadas y orgánicas, interacciones, seguidores y visitas diarias de la página La Vasca en el periodo.",
+ "description": "Visualizaciones pagadas y orgánicas, interacciones, seguidores y visitas diarias de la página __LV_PAGE_NAME__ en el periodo.",
  "source": {
   "args": {
    "page_id": "__LV_PAGE_ID__",

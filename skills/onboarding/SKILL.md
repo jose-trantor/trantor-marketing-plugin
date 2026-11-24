@@ -96,7 +96,7 @@ Si alguna de estas llamadas falla, sigue sin ese dato.
 
 ### 4.2 Marca o cliente
 
-Agrupa las fuentes por marca comparando nombres sin mayúsculas, tildes, símbolos (®, |) ni sufijos como "S.A.S", "2" o "3": "LA VASCA" (anuncios), "La Vasca" (página e Instagram) y "La Vasca" (web) son la misma marca.
+Agrupa las fuentes por marca comparando nombres sin mayúsculas, tildes, símbolos (®, |) ni sufijos como "S.A.S", "2" o "3": "MI MARCA" (anuncios), "Mi Marca" (página e Instagram) y "Mi Marca" (web) son la misma marca.
 
 - **Si sale más de una marca**, pregunta **«¿Qué marca o cliente quieres analizar?»** (una respuesta). Ofrece hasta 4 marcas, primero las que tienen actividad. En la descripción, lo que tiene cada una: "Anuncios (€1.240 en 30 días) · Página · Instagram · Web". Si hay más de 4, avisa en la pregunta de que puede escribir el nombre de otra.
 - **Si solo hay una**, úsala sin preguntar.
@@ -108,12 +108,12 @@ Si el usuario ya nombró la marca en su mensaje, no preguntes: úsala.
 Haz una sola llamada con una pregunta por tipo de fuente, en este orden y con un máximo de 4 preguntas:
 
 1. **Anuncios** — «¿Qué cuentas publicitarias de Meta incluimos?» (varias). Primero las de la marca, recomendadas si tienen gasto; después otras con gasto, por si comparte cuenta con otra marca (por ejemplo, una cuenta de agencia).
-2. **Página FB** — «¿Qué página de Facebook?» (una).
-3. **Instagram** — «¿Qué cuenta de Instagram?» (una). En la descripción, el @usuario.
-4. **Web** — «¿Qué web de Google Analytics?» (una). En la descripción, las visitas de 30 días.
+2. **Página FB** — «¿Qué página de Facebook?» (una). Ordena las opciones por similitud de nombre con las cuentas publicitarias ya elegidas: normaliza (minúsculas, sin tildes, sin sufijos legales) y pon primero la más parecida. Si hay empate, ordena por seguidores.
+3. **Instagram** — «¿Qué cuenta de Instagram?» (una). En la descripción, el @usuario. Ordena igual que las páginas: primero la cuenta cuyo `username` o `name` sea más similar al nombre de las cuentas publicitarias elegidas.
+4. **Web** — «¿Qué web de Google Analytics?» (una). En la descripción, las visitas de 30 días. Ordena por similitud de nombre con la marca elegida.
 
 Para cada tipo:
-- Si solo hay una opción razonable en total, no la preguntes: úsala y nómbrala en el texto de antes de la llamada ("Uso la página La Vasca, que es la única").
+- Si solo hay una opción razonable en total, no la preguntes: úsala y nómbrala en el texto de antes de la llamada ("Uso la página Mi Marca, que es la única").
 - Si no hay ninguna, no la preguntes y apunta la fuente como pendiente (paso 4.6).
 - Si hay más de 4 opciones de un tipo, reparte ese tipo en varias preguntas como dice "Cómo preguntar". Si así no caben los cuatro tipos en una llamada, haz una segunda llamada con los que falten.
 
@@ -138,11 +138,11 @@ Antes de cerrar, avisa en una línea de cada elección que va a salir vacía y o
 
 Cierra con un resumen corto en texto, con nombres:
 
-> **Tu selección: La Vasca**
-> - Anuncios: LA VASCA (todas las campañas)
-> - Página de Facebook: La Vasca
-> - Instagram: @lavasca.co
-> - Web: La Vasca
+> **Tu selección: Mi Marca**
+> - Anuncios: MI MARCA (todas las campañas)
+> - Página de Facebook: Mi Marca
+> - Instagram: @mimarca
+> - Web: mimarca.com
 > - Sin conectar: Google Ads, Search Console
 
 Mantén esta selección durante la conversación (con nombres e identificadores, la moneda y la zona horaria de la primera cuenta publicitaria, y el nombre del conector) para que las demás tareas del plugin la usen sin volver a preguntar. Si el usuario quiere cambiarla más tarde, repite solo la pregunta de lo que cambia.

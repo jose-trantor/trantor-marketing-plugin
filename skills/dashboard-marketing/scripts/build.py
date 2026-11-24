@@ -5,13 +5,13 @@ Usage:
 
 config.json (every key is required unless marked optional):
 {
-  "brand": "La Vasca",                       # shown in the title
+  "brand": "Mi Marca",                       # shown in the title
   "connector": "Trantor",                    # the Trantor connector's name exactly as the user added it
-  "meta_account_ids": ["1161215189017811"],  # ad account ids, without act_
-  "meta_account_names": "Bocass Gorup S.A.S",
-  "ig_id": "17841463618897087",  "ig_username": "lavasca.co",
-  "page_id": "238709972663415",  "page_name": "La Vasca",
-  "ga4_property_id": "465943804", "ga4_name": "lavasca.co",
+  "meta_account_ids": ["1234567890"],        # ad account ids, without act_
+  "meta_account_names": "Mi Marca Ads",
+  "ig_id": "17841400000000000",  "ig_username": "mimarca",
+  "page_id": "100000000000000",  "page_name": "Mi Marca",
+  "ga4_property_id": "123456789", "ga4_name": "mimarca.com",
   "locale": "es-CO",                         # optional, number format (default es-ES)
   "currency_symbol": "$",                    # optional (default "$")
   "utc_offset_hours": -5,                    # optional, account time zone (default 0)

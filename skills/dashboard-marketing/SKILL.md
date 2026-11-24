@@ -17,11 +17,11 @@ Anota también el **nombre del conector tal como aparece en su cuenta** (normalm
 
 ## 2. Elegir las cuentas
 
-Usa la selección del paso 4 de la skill **onboarding**: marca, cuentas publicitarias, campañas, página de Facebook, Instagram y web. Si en esta conversación aún no se ha hecho, haz ese paso ahora, con sus preguntas de opciones; no vuelvas a preguntar lo que ya eligió. La marca elegida es el nombre del título.
+Usa la selección del paso 4 de la skill **onboarding**: marca, cuentas publicitarias, campañas, página de Facebook, Instagram y web. Si en esta conversación aún no se ha hecho, haz ese paso ahora, con sus preguntas de opciones; no vuelvas a preguntar lo que ya eligió.
 
 Si le falta alguna fuente (por ejemplo, no tiene GA4), avísale de que esa pestaña aparecerá sin datos y sigue.
 
-Si eligió solo algunas campañas, pasa sus identificadores en `meta_campaign_ids` y pon en `meta_account_names` las cuentas seguidas del número de campañas ("LA VASCA · 3 campañas elegidas").
+Si eligió solo algunas campañas, pasa sus identificadores en `meta_campaign_ids` y pon en `meta_account_names` las cuentas seguidas del número de campañas ("Mi Marca · 3 campañas elegidas").
 
 Después completa sin preguntar:
 
@@ -31,14 +31,15 @@ Después completa sin preguntar:
 
 ## 3. Crear el dashboard
 
-1. Crea el dashboard desde el tipo de artifact de dashboards (Data / Dashboard): una sola llamada de publicación con su `type_url`, `title` = "<marca> · Performance de marketing" y `auto_open: "after_first_write"`. Sigue las instrucciones que te devuelva el tipo para todo lo que no diga esta skill.
-2. Escribe la configuración en un archivo JSON y genera los documentos con el script:
+1. Antes de crear nada, genera un título para el dashboard a partir de la selección del usuario y comunícaselo: "Voy a crear el dashboard con el título «[título]». Dime si quieres cambiarlo antes de continuar." Criterios para el título: una sola marca y todas las fuentes → `"[Marca] · Marketing"`; varias cuentas de marcas distintas → `"[Marca A] + [Marca B] · Marketing"`; sin Meta pero con GA4 → `"[Marca] · Analytics"`; sin GA4 pero con Meta → `"[Marca] · Meta Ads"`. Usa el nombre limpio de la marca (sin sufijos legales). Si el usuario pide cambiarlo, usa el que indique.
+2. Crea el dashboard desde el tipo de artifact de dashboards (Data / Dashboard): una sola llamada de publicación con su `type_url`, el `title` acordado y `auto_open: "after_first_write"`. Sigue las instrucciones que te devuelva el tipo para todo lo que no diga esta skill.
+3. Escribe la configuración en un archivo JSON y genera los documentos con el script:
    ```bash
    python3 ${CLAUDE_SKILL_DIR}/scripts/build.py config.json salida/
    ```
    El formato de `config.json` está al principio de `scripts/build.py`. El script rellena la plantilla de `assets/template/` (página, 36 consultas, cálculos y estilos) y deja en `salida/writes-1.json` la lista de escrituras.
-3. Escribe todos los documentos en el almacén del dashboard con una escritura por lotes (`batch`) usando esas entradas. Si alguno ya existía porque el tipo lo creó al nacer, léelo y añade su `version` como `if_version`.
-4. Comprueba que la página carga, como explica el tipo: lee `check` y `runs`. Si una consulta falla por el nombre del conector, corrige `connector` en los datasets afectados.
+4. Escribe todos los documentos en el almacén del dashboard con una escritura por lotes (`batch`) usando esas entradas. Si alguno ya existía porque el tipo lo creó al nacer, léelo y añade su `version` como `if_version`.
+5. Comprueba que la página carga, como explica el tipo: lee `check` y `runs`. Si una consulta falla por el nombre del conector, corrige `connector` en los datasets afectados.
 
 Si no puedes ejecutar el script, lee los archivos de `assets/template/` y sustituye tú los marcadores (`__LV_…__`) como indica el script, antes de escribir.
 
