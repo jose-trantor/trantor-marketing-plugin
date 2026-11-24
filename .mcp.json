@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "trantor": {
+      "type": "http",
+      "url": "https://skull-api-staging.trantorai.ws/mcp"
+    }
+  }
+}

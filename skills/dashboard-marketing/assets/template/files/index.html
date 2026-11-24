@@ -1,0 +1,779 @@
+<meta name="dash-one-writer">
+<link rel="stylesheet" href="lv.css">
+<div class="lv">
+  <header class="lv-head">
+    <div>
+      <h1 class="lv-title" id="top">__LV_BRAND__ · Performance de marketing</h1>
+      <p class="lv-lede">Panel de marketing digital con datos en vivo de Meta Ads, Instagram, Facebook y Google Analytics 4. El Resumen da la visión global; cada pestaña, el detalle.</p>
+    </div>
+    <label class="lv-period-label">Periodo
+      <select class="lv-period" aria-label="Periodo">
+        <option value="last_15d">Últimos 15 días</option>
+        <option value="last_30d">Últimos 30 días</option>
+        <option value="last_90d">Últimos 90 días</option>
+        <option value="last_180d">Últimos 180 días</option>
+      </select>
+    </label>
+  </header>
+
+  <nav class="lv-tabs" role="tablist">
+    <button class="lv-tab" role="tab" data-tab="resumen" aria-selected="true">Resumen</button>
+    <button class="lv-tab" role="tab" data-tab="meta" aria-selected="false">Meta · Rendimiento</button>
+    <button class="lv-tab" role="tab" data-tab="awareness" aria-selected="false">Meta · Awareness</button>
+    <button class="lv-tab" role="tab" data-tab="creatividades" aria-selected="false">Meta · Creatividades</button>
+    <button class="lv-tab" role="tab" data-tab="instagram" aria-selected="false">Instagram</button>
+    <button class="lv-tab" role="tab" data-tab="facebook" aria-selected="false">Facebook</button>
+    <button class="lv-tab" role="tab" data-tab="web" aria-selected="false">Web (GA4)</button>
+    <button class="lv-tab" role="tab" data-tab="cobertura" aria-selected="false">Fuentes y método</button>
+  </nav>
+
+  <!-- RESUMEN: visión global entre fuentes -->
+  <section class="lv-page" id="resumen">
+    <div>
+      <p class="lv-sub"><span data-draw="periodo" data-cap="1">—</span>, comparado con el periodo anterior de la misma duración.</p>
+      <p class="lv-lede">La web vendió <b data-draw="kpi" data-source="sum_kpis" data-row="0" data-field="revenue" data-fmt="copc" data-fetchpriority="high">—</b> (<b data-draw="kpi" data-source="sum_kpis" data-row="0" data-field="revenue_delta" data-fmt="delta" data-good="up">—</b>) y los anuncios iniciaron <b data-draw="kpi" data-source="sum_kpis" data-row="0" data-field="conversations" data-fmt="int">—</b> conversaciones (<b data-draw="kpi" data-source="sum_kpis" data-row="0" data-field="conversations_delta" data-fmt="delta" data-good="up">—</b>). Con <b data-draw="kpi" data-source="sum_kpis" data-row="0" data-field="spend" data-fmt="copc">—</b> invertidos, cada oportunidad de venta costó <b data-draw="kpi" data-source="sum_kpis" data-row="0" data-field="cost_per_opportunity" data-fmt="cop">—</b>. Hay <b data-draw="kpi" data-source="sum_counts" data-row="0" data-field="measurement" data-fmt="int">—</b> problemas de medición, <b data-draw="kpi" data-source="sum_counts" data-row="0" data-field="high" data-fmt="int">—</b> alertas altas de negocio y <b data-draw="kpi" data-source="sum_counts" data-row="0" data-field="opportunities" data-fmt="int">—</b> oportunidades.</p>
+    </div>
+
+    <div class="lv-tiles" id="sum-kpis">
+      <div class="lv-tile"><span class="lv-tile-label">Ventas web</span><span class="lv-tile-num" data-draw="kpi" data-source="sum_kpis" data-row="0" data-field="revenue" data-fmt="copc" data-fetchpriority="high">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="sum_kpis" data-row="0" data-field="revenue_delta" data-fmt="delta" data-good="up">—</span> · <span data-draw="kpi" data-source="sum_kpis" data-row="0" data-field="orders" data-fmt="int">—</span> pedidos</span></div>
+      <div class="lv-tile"><span class="lv-tile-label">Conversaciones desde anuncios</span><span class="lv-tile-num" data-draw="kpi" data-source="sum_kpis" data-row="0" data-field="conversations" data-fmt="int">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="sum_kpis" data-row="0" data-field="conversations_delta" data-fmt="delta" data-good="up">—</span> vs. periodo anterior</span></div>
+      <div class="lv-tile"><span class="lv-tile-label">Inversión total</span><span class="lv-tile-num" data-draw="kpi" data-source="sum_kpis" data-row="0" data-field="spend" data-fmt="copc">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="sum_kpis" data-row="0" data-field="spend_delta" data-fmt="delta">—</span> · hoy solo Meta Ads tiene inversión conectada</span></div>
+      <div class="lv-tile"><span class="lv-tile-label">Coste por oportunidad</span><span class="lv-tile-num" data-draw="kpi" data-source="sum_kpis" data-row="0" data-field="cost_per_opportunity" data-fmt="cop">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="sum_kpis" data-row="0" data-field="cost_per_opportunity_delta" data-fmt="delta" data-good="down">—</span> · inversión ÷ (pedidos web + conversaciones)</span></div>
+    </div>
+
+    <article class="lv-card" id="sum-medicion">
+      <h3 class="lv-card-title">Antes de decidir, arregla esto</h3>
+      <p class="lv-card-note">Problemas de medición: mientras sigan, las cifras de canales y anuncios no cuentan toda la verdad. Toca una alerta para ir a su pestaña.</p>
+      <ol class="lv-alerts" data-draw="alerts" data-source="sum_alerts_meas"></ol>
+    </article>
+
+    <article class="lv-card" id="sum-alertas">
+      <h3 class="lv-card-title">A qué prestar atención</h3>
+      <p class="lv-card-note">Las alertas altas de todas las áreas y las tres primeras oportunidades. Las de prioridad media están en cada pestaña.</p>
+      <ol class="lv-alerts" data-draw="alerts" data-source="sum_alerts_biz"></ol>
+    </article>
+
+    <article class="lv-card" id="sum-embudo">
+      <h3 class="lv-card-title">Embudo completo</h3>
+      <p class="lv-card-note">De la marca a la venta, juntando fuentes. Tras la interacción el embudo se divide: unos compran en la web y otros escriben por WhatsApp o Instagram, donde la venta todavía no se mide. Las etapas de marca suman fuentes distintas: tómalas como orden de magnitud.</p>
+      <div class="lv-funnel" data-draw="funnel" data-source="sum_funnel"></div>
+    </article>
+
+    <article class="lv-card" id="sum-areas-card">
+      <h3 class="lv-card-title">Estado por área</h3>
+      <p class="lv-card-note">La cifra clave de cada pestaña frente al periodo anterior. Toca una fila para ir al detalle.</p>
+      <div class="lv-scroll">
+        <table class="lv-table" id="sum-areas" data-source="sum_areas" data-row-key="area">
+          <thead><tr>
+            <th data-field="area" class="lv-left">Área</th>
+            <th data-field="metric" class="lv-left">Cifra clave</th>
+            <th data-field="value">Valor</th>
+            <th data-field="change" data-fmt="delta">vs. anterior</th>
+            <th data-field="trend" class="lv-left" data-chip>Tendencia</th>
+            <th data-field="high" data-fmt="int">Alertas altas</th>
+            <th data-field="opportunities" data-fmt="int">Oportunidades</th>
+          </tr></thead>
+          <tbody data-draw="tbl"></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="lv-card" id="sum-semanal">
+      <h3 class="lv-card-title">Inversión y resultados por semana</h3>
+      <div class="lv-legend"><span><i class="lv-sw" data-c="0"></i>Inversión (todas las fuentes conectadas)</span><span><i class="lv-sw" data-c="1"></i>Ventas web</span></div>
+      <p class="lv-card-note">Pasa el cursor para ver pedidos web y conversaciones de cada semana.</p>
+      <div class="lv-chart" data-draw="chart" data-chart="sum-weekly" data-source="sum_weekly"></div>
+    </article>
+
+    <article class="lv-card" id="sum-plan">
+      <h3 class="lv-card-title">Lectura y plan de la semana</h3>
+      <!--LV_READING:sum-plan-->
+      <p class="lv-card-note">Lectura pendiente. Pide a Claude «actualiza las lecturas del dashboard» y la escribirá aquí a partir de tus datos.</p>
+      <ol class="lv-list">
+        <li>Todavía no hay lectura.</li>
+      </ol>
+      <!--/LV_READING-->
+    </article>
+  </section>
+
+  <!-- META ADS: visión general, alertas, campañas y anuncios -->
+  <section class="lv-page" id="meta" hidden>
+    <div>
+      <h2 class="lv-h2">Meta · Rendimiento</h2>
+      <p class="lv-sub"><span data-draw="periodo" data-cap="1">—</span>, comparado con el periodo anterior de la misma duración. Cuentas: __LV_META_NAMES__.</p>
+      <p class="lv-lede">Invertiste <b data-draw="kpi" data-source="m_kpis" data-row="0" data-field="spend" data-fmt="copc" data-fetchpriority="high">—</b> y conseguiste <b data-draw="kpi" data-source="m_kpis" data-row="0" data-field="conversations" data-fmt="int">—</b> conversaciones y <b data-draw="kpi" data-source="m_kpis" data-row="0" data-field="purchases" data-fmt="int">—</b> compras web. Hay <b data-draw="kpi" data-source="m_alert_count" data-row="0" data-field="alta" data-fmt="int">—</b> alertas de prioridad alta y <b data-draw="kpi" data-source="m_alert_count" data-row="0" data-field="oportunidad" data-fmt="int">—</b> oportunidades.</p>
+    </div>
+
+    <div class="lv-tiles" id="meta-kpis">
+      <div class="lv-tile"><span class="lv-tile-label">Inversión</span><span class="lv-tile-num" data-draw="kpi" data-source="m_kpis" data-row="0" data-field="spend" data-fmt="copc" data-fetchpriority="high">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="m_kpis" data-row="0" data-field="spend_delta" data-fmt="delta">—</span> vs. periodo anterior</span></div>
+      <div class="lv-tile"><span class="lv-tile-label">Conversaciones iniciadas</span><span class="lv-tile-num" data-draw="kpi" data-source="m_kpis" data-row="0" data-field="conversations" data-fmt="int">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="m_kpis" data-row="0" data-field="conversations_delta" data-fmt="delta" data-good="up">—</span> vs. periodo anterior</span></div>
+      <div class="lv-tile"><span class="lv-tile-label">Coste por conversación</span><span class="lv-tile-num" data-draw="kpi" data-source="m_kpis" data-row="0" data-field="cost_per_conversation" data-fmt="cop">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="m_kpis" data-row="0" data-field="cost_per_conversation_delta" data-fmt="delta" data-good="down">—</span> vs. periodo anterior</span></div>
+      <div class="lv-tile"><span class="lv-tile-label">Compras web (píxel)</span><span class="lv-tile-num" data-draw="kpi" data-source="m_kpis" data-row="0" data-field="purchases" data-fmt="int">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="m_kpis" data-row="0" data-field="cost_per_purchase" data-fmt="cop">—</span> por compra · ROAS <span data-draw="kpi" data-source="m_kpis" data-row="0" data-field="roas" data-fmt="x">—</span></span></div>
+    </div>
+
+    <article class="lv-card" id="meta-alertas">
+      <h3 class="lv-card-title">A qué prestar atención</h3>
+      <p class="lv-card-note">Alertas generadas por reglas fijas sobre los datos del periodo, de la más urgente a la menos. Se recalculan cada vez que abres el dashboard o cambias el periodo.</p>
+      <ol class="lv-alerts" data-draw="alerts" data-source="m_alerts"></ol>
+    </article>
+
+    <div class="lv-grid">
+      <article class="lv-card" id="meta-tipos">
+        <h3 class="lv-card-title">Dónde va la inversión</h3>
+        <p class="lv-card-note">Cada campaña cuenta el resultado que persigue: conversaciones (mensajes), compras (venta web), visitas a la web (tráfico) o personas alcanzadas (alcance).</p>
+        <div class="lv-hbars" data-draw="chart" data-chart="m-types" data-source="m_types"></div>
+      </article>
+      <article class="lv-card" id="meta-diario">
+        <h3 class="lv-card-title">Inversión diaria</h3>
+        <p class="lv-card-note">Pasa el cursor para ver las conversaciones y compras de cada día.</p>
+        <div class="lv-chart lv-short" data-draw="chart" data-chart="m-daily" data-source="m_daily_sum"></div>
+      </article>
+    </div>
+
+    <article class="lv-card" id="meta-campanas">
+      <h3 class="lv-card-title">Campañas</h3>
+      <p class="lv-card-note">El coste por resultado se compara con la media de las campañas del mismo tipo y con el periodo anterior. Ordena por cualquier columna.</p>
+      <div class="lv-scroll">
+        <table class="lv-table" data-source="m_camp" data-row-key="account_name,campaign">
+          <thead><tr>
+            <th data-field="campaign" class="lv-left" data-cell="lv-wrap">Campaña</th>
+            <th data-field="verdict" class="lv-left" data-chip>Veredicto</th>
+            <th data-field="type" class="lv-left">Tipo</th>
+            <th data-field="spend" data-fmt="cop" data-bar aria-sort="descending">Inversión</th>
+            <th data-field="results" data-fmt="int">Resultados</th>
+            <th data-field="cost_per_result" data-fmt="cop">Coste / resultado</th>
+            <th data-field="vs_type" data-fmt="delta" data-good="down">vs. media del tipo</th>
+            <th data-field="cost_delta" data-fmt="delta" data-good="down">vs. anterior</th>
+            <th data-field="frequency" data-fmt="dec1" data-warn-above="4">Frecuencia</th>
+            <th data-field="account_name" class="lv-left">Cuenta</th>
+          </tr></thead>
+          <tbody data-draw="tbl"></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="lv-card" id="meta-anuncios">
+      <h3 class="lv-card-title">Anuncios</h3>
+      <p class="lv-card-note">Anuncios con al menos el 1 % de la inversión. Otros <span data-draw="kpi" data-source="m_small_ads" data-row="0" data-field="count" data-fmt="int">—</span> anuncios suman el <span data-draw="kpi" data-source="m_small_ads" data-row="0" data-field="share" data-fmt="pct">—</span> restante. «CTR vs. anterior» detecta fatiga creativa.</p>
+      <div class="lv-scroll">
+        <table class="lv-table" data-source="m_ads" data-row-key="account_name,ad_name">
+          <thead><tr>
+            <th data-field="ad_name" class="lv-left" data-cell="lv-wrap">Anuncio</th>
+            <th data-field="verdict" class="lv-left" data-chip>Veredicto</th>
+            <th data-field="type" class="lv-left">Tipo</th>
+            <th data-field="spend" data-fmt="cop" data-bar aria-sort="descending">Inversión</th>
+            <th data-field="results" data-fmt="int">Resultados</th>
+            <th data-field="cost_per_result" data-fmt="cop">Coste / resultado</th>
+            <th data-field="vs_type" data-fmt="delta" data-good="down">vs. media del tipo</th>
+            <th data-field="ctr" data-fmt="pct">CTR</th>
+            <th data-field="ctr_delta" data-fmt="delta" data-good="up">CTR vs. anterior</th>
+          </tr></thead>
+          <tbody data-draw="tbl"></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="lv-card" id="meta-reglas">
+      <h3 class="lv-card-title">Cómo se decide cada veredicto</h3>
+      <ul class="lv-list lv-small">
+        <li><span class="lv-chip lv-chip-funciona">Funciona</span> cuesta como mucho <span data-draw="kpi" data-source="m_rules" data-row="0" data-field="good_ratio" data-fmt="dec1">—</span> veces la media de su tipo.</li>
+        <li><span class="lv-chip lv-chip-vigilar">Vigilar</span> cuesta más de <span data-draw="kpi" data-source="m_rules" data-row="0" data-field="watch_ratio" data-fmt="dec1">—</span> veces la media, su coste sube más de un <span data-draw="kpi" data-source="m_rules" data-row="0" data-field="cost_rise" data-fmt="pct">—</span> frente al periodo anterior, su CTR cae más de un <span data-draw="kpi" data-source="m_rules" data-row="0" data-field="ctr_drop" data-fmt="pct">—</span>, o (en campañas) la frecuencia pasa de <span data-draw="kpi" data-source="m_rules" data-row="0" data-field="freq_watch" data-fmt="int">—</span> (<span data-draw="kpi" data-source="m_rules" data-row="0" data-field="freq_reach" data-fmt="int">—</span> en alcance).</li>
+        <li><span class="lv-chip lv-chip-no-funciona">No funciona</span> no consigue resultados o cuesta <span data-draw="kpi" data-source="m_rules" data-row="0" data-field="bad_ratio" data-fmt="dec1">—</span> veces la media o más.</li>
+        <li><span class="lv-chip lv-chip-poco-gasto">Poco gasto</span> tiene menos del <span data-draw="kpi" data-source="m_rules" data-row="0" data-field="min_share" data-fmt="pct">—</span> de la inversión: todavía no hay datos para juzgarlo.</li>
+        <li>El tipo sale del objetivo de la campaña: Ventas con más visitas a la web que conversaciones es «Venta web»; si no, «Mensajes». Reconocimiento e Interacción son «Alcance», con coste por 1.000 personas alcanzadas.</li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- META AWARENESS -->
+  <section class="lv-page" id="awareness" hidden>
+    <div>
+      <h2 class="lv-h2">Meta · Awareness</h2>
+      <p class="lv-sub"><span data-draw="periodo" data-cap="1">—</span>, comparado con el periodo anterior de la misma duración. Campañas con objetivo Reconocimiento o Interacción.</p>
+      <p class="lv-lede">Invertiste <b data-draw="kpi" data-source="aw_kpis" data-row="0" data-field="spend" data-fmt="copc" data-fetchpriority="high">—</b> en awareness (el <b data-draw="kpi" data-source="aw_kpis" data-row="0" data-field="share_of_meta" data-fmt="pct">—</b> de la inversión en Meta) y alcanzaste <b data-draw="kpi" data-source="aw_kpis" data-row="0" data-field="reach" data-fmt="intc">—</b> personas a <b data-draw="kpi" data-source="aw_kpis" data-row="0" data-field="cost_per_1000_reached" data-fmt="cop">—</b> cada 1.000. Hay <b data-draw="kpi" data-source="aw_alert_count" data-row="0" data-field="alta" data-fmt="int">—</b> alertas de prioridad alta y <b data-draw="kpi" data-source="aw_alert_count" data-row="0" data-field="oportunidad" data-fmt="int">—</b> oportunidades.</p>
+    </div>
+
+    <div class="lv-tiles" id="aw-kpis">
+      <div class="lv-tile"><span class="lv-tile-label">Personas alcanzadas</span><span class="lv-tile-num" data-draw="kpi" data-source="aw_kpis" data-row="0" data-field="reach" data-fmt="intc" data-fetchpriority="high">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="aw_kpis" data-row="0" data-field="reach_delta" data-fmt="delta" data-good="up">—</span> vs. periodo anterior</span></div>
+      <div class="lv-tile"><span class="lv-tile-label">Coste por 1.000 alcanzados</span><span class="lv-tile-num" data-draw="kpi" data-source="aw_kpis" data-row="0" data-field="cost_per_1000_reached" data-fmt="cop">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="aw_kpis" data-row="0" data-field="cost_delta" data-fmt="delta" data-good="down">—</span> vs. periodo anterior</span></div>
+      <div class="lv-tile"><span class="lv-tile-label">Recuerdo estimado del anuncio</span><span class="lv-tile-num" data-draw="kpi" data-source="aw_kpis" data-row="0" data-field="recallers" data-fmt="intc">—</span><span class="lv-tile-note">Personas · <span data-draw="kpi" data-source="aw_kpis" data-row="0" data-field="recallers_delta" data-fmt="delta" data-good="up">—</span> vs. anterior</span></div>
+      <div class="lv-tile"><span class="lv-tile-label">Enganche de vídeo</span><span class="lv-tile-num" data-draw="kpi" data-source="aw_kpis" data-row="0" data-field="hook_rate" data-fmt="pct">—</span><span class="lv-tile-note">Impresiones que llegan a 3 s · <span data-draw="kpi" data-source="aw_kpis" data-row="0" data-field="hook_delta" data-fmt="delta" data-good="up">—</span></span></div>
+    </div>
+
+    <article class="lv-card" id="aw-alertas">
+      <h3 class="lv-card-title">A qué prestar atención</h3>
+      <p class="lv-card-note">Alertas generadas por reglas fijas, de la más urgente a la menos. Se recalculan cada vez que abres el dashboard o cambias el periodo.</p>
+      <ol class="lv-alerts" data-draw="alerts" data-source="aw_alerts"></ol>
+    </article>
+
+    <article class="lv-card" id="aw-diario">
+      <h3 class="lv-card-title">Personas alcanzadas por día</h3>
+      <p class="lv-card-note">Suma de campañas. Pasa el cursor para ver la inversión y el coste por 1.000 alcanzados de cada día.</p>
+      <div class="lv-chart lv-short" data-draw="chart" data-chart="aw-daily" data-source="aw_daily_sum"></div>
+    </article>
+
+    <article class="lv-card" id="aw-campanas">
+      <h3 class="lv-card-title">Campañas</h3>
+      <p class="lv-card-note">El coste por 1.000 alcanzados se compara con la media de awareness y con el periodo anterior. La frecuencia es la de los últimos 7 días: mide la presión actual sobre el público.</p>
+      <div class="lv-scroll">
+        <table class="lv-table" data-source="aw_camp" data-row-key="account_name,campaign">
+          <thead><tr>
+            <th data-field="campaign" class="lv-left" data-cell="lv-wrap">Campaña</th>
+            <th data-field="verdict" class="lv-left" data-chip>Veredicto</th>
+            <th data-field="spend" data-fmt="cop" data-bar aria-sort="descending">Inversión</th>
+            <th data-field="reach" data-fmt="int">Alcance</th>
+            <th data-field="cost_per_1000_reached" data-fmt="cop">Coste / 1.000</th>
+            <th data-field="vs_avg" data-fmt="delta" data-good="down">vs. media</th>
+            <th data-field="cost_delta" data-fmt="delta" data-good="down">vs. anterior</th>
+            <th data-field="frequency_7d" data-fmt="dec1" data-warn-above="3">Frecuencia 7 días</th>
+            <th data-field="hook_rate" data-fmt="pct">Enganche</th>
+            <th data-field="recallers" data-fmt="int">Recuerdo est.</th>
+          </tr></thead>
+          <tbody data-draw="tbl"></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="lv-card" id="aw-anuncios">
+      <h3 class="lv-card-title">Anuncios</h3>
+      <p class="lv-card-note">Anuncios con al menos el 1 % de la inversión de awareness. Otros <span data-draw="kpi" data-source="aw_small_ads" data-row="0" data-field="count" data-fmt="int">—</span> suman el <span data-draw="kpi" data-source="aw_small_ads" data-row="0" data-field="share" data-fmt="pct">—</span> restante. Enganche: impresiones que llegan a 3 s. Retención: de esas, las que llegan a ThruPlay (15 s o el final).</p>
+      <div class="lv-scroll">
+        <table class="lv-table" data-source="aw_ads" data-row-key="account_name,ad_name">
+          <thead><tr>
+            <th data-field="ad_name" class="lv-left" data-cell="lv-wrap">Anuncio</th>
+            <th data-field="verdict" class="lv-left" data-chip>Veredicto</th>
+            <th data-field="spend" data-fmt="cop" data-bar aria-sort="descending">Inversión</th>
+            <th data-field="reach" data-fmt="int">Alcance</th>
+            <th data-field="cost_per_1000_reached" data-fmt="cop">Coste / 1.000</th>
+            <th data-field="vs_avg" data-fmt="delta" data-good="down">vs. media</th>
+            <th data-field="hook_rate" data-fmt="pct">Enganche</th>
+            <th data-field="hook_delta" data-fmt="delta" data-good="up">Enganche vs. anterior</th>
+            <th data-field="retention" data-fmt="pct">Retención</th>
+          </tr></thead>
+          <tbody data-draw="tbl"></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="lv-card" id="aw-reglas">
+      <h3 class="lv-card-title">Cómo se decide cada veredicto</h3>
+      <ul class="lv-list lv-small">
+        <li><span class="lv-chip lv-chip-funciona">Funciona</span> alcanza a 1.000 personas por como mucho <span data-draw="kpi" data-source="aw_rules" data-row="0" data-field="good_ratio" data-fmt="dec1">—</span> veces la media y, si es vídeo, engancha al menos <span data-draw="kpi" data-source="aw_rules" data-row="0" data-field="good_ratio" data-fmt="dec1">—</span> veces la media.</li>
+        <li><span class="lv-chip lv-chip-vigilar">Vigilar</span> cuesta más de <span data-draw="kpi" data-source="aw_rules" data-row="0" data-field="watch_ratio" data-fmt="dec1">—</span> veces la media, se encarece más de un <span data-draw="kpi" data-source="aw_rules" data-row="0" data-field="cost_rise" data-fmt="pct">—</span>, su enganche cae más de un <span data-draw="kpi" data-source="aw_rules" data-row="0" data-field="hook_drop" data-fmt="pct">—</span>, o (en campañas) la frecuencia de 7 días pasa de <span data-draw="kpi" data-source="aw_rules" data-row="0" data-field="freq7_watch" data-fmt="int">—</span>.</li>
+        <li><span class="lv-chip lv-chip-no-funciona">No funciona</span> cuesta <span data-draw="kpi" data-source="aw_rules" data-row="0" data-field="bad_ratio" data-fmt="dec1">—</span> veces la media o más, o su vídeo engancha menos de <span data-draw="kpi" data-source="aw_rules" data-row="0" data-field="hook_bad" data-fmt="dec1">—</span> veces la media.</li>
+        <li><span class="lv-chip lv-chip-poco-gasto">Poco gasto</span> tiene menos del <span data-draw="kpi" data-source="aw_rules" data-row="0" data-field="min_share" data-fmt="pct">—</span> de la inversión de awareness.</li>
+        <li>El alcance se suma por campaña: una persona alcanzada por dos campañas cuenta dos veces. El recuerdo estimado lo calcula Meta y solo existe en campañas de Reconocimiento e Interacción.</li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- META CREATIVIDADES -->
+  <section class="lv-page" id="creatividades" hidden>
+    <div>
+      <h2 class="lv-h2">Meta · Creatividades</h2>
+      <p class="lv-sub"><span data-draw="periodo" data-cap="1">—</span>. Cada anuncio se clasifica con reglas fijas (concepto, destino, formato y largo del copy) y los grupos se comparan con resultados en vivo. Las reglas están al final de la página.</p>
+    </div>
+
+    <article class="lv-card" id="cr-conclusiones">
+      <h3 class="lv-card-title">Conclusiones del análisis</h3>
+      <!--LV_READING:cr-conclusiones-->
+      <p class="lv-card-note">Lectura pendiente. Pide a Claude «actualiza las lecturas del dashboard» y la escribirá aquí a partir de tus datos.</p>
+      <ul class="lv-find">
+        <li><span class="lv-dot warn"></span><span>Todavía no hay lectura.</span></li>
+      </ul>
+      <!--/LV_READING-->
+    </article>
+
+    <div class="lv-grid">
+      <article class="lv-card" id="cr-concepto">
+        <h3 class="lv-card-title">Conversaciones por concepto creativo</h3>
+        <p class="lv-card-note">Coste por conversación en campañas de mensajes; arriba, lo más barato.</p>
+        <div class="lv-hbars" data-draw="chart" data-chart="cr-concept" data-source="cr_msg_concept"></div>
+      </article>
+      <article class="lv-card" id="cr-formato">
+        <h3 class="lv-card-title">Conversaciones por formato</h3>
+        <p class="lv-card-note">Coste por conversación en campañas de mensajes.</p>
+        <div class="lv-hbars" data-draw="chart" data-chart="cr-format" data-source="cr_msg_format"></div>
+      </article>
+    </div>
+
+    <article class="lv-card" id="cr-destino">
+      <h3 class="lv-card-title">WhatsApp frente a Instagram Direct</h3>
+      <p class="lv-card-note">Comparado dentro de cada concepto, para que el resultado no dependa de la creatividad. «IG cuesta» indica cuántas veces más cuesta una conversación por Instagram Direct que por WhatsApp.</p>
+      <div class="lv-scroll">
+        <table class="lv-table" data-source="cr_msg_dest" data-row-key="concept">
+          <thead><tr>
+            <th data-field="concept" class="lv-left">Concepto</th>
+            <th data-field="wa_cost" data-fmt="cop">Coste / conv. WhatsApp</th>
+            <th data-field="ig_cost" data-fmt="cop">Coste / conv. IG Direct</th>
+            <th data-field="ig_vs_wa" data-fmt="x" aria-sort="descending">IG cuesta</th>
+            <th data-field="wa_spend" data-fmt="cop">Inversión WhatsApp</th>
+            <th data-field="ig_spend" data-fmt="cop">Inversión IG Direct</th>
+          </tr></thead>
+          <tbody data-draw="tbl"></tbody>
+        </table>
+      </div>
+    </article>
+
+    <div class="lv-grid">
+      <article class="lv-card" id="cr-largo">
+        <h3 class="lv-card-title">Conversaciones por largo del copy</h3>
+        <p class="lv-card-note">Caracteres del texto principal del anuncio.</p>
+        <div class="lv-hbars" data-draw="chart" data-chart="cr-length" data-source="cr_msg_length"></div>
+      </article>
+      <article class="lv-card" id="cr-awareness">
+        <h3 class="lv-card-title">Awareness por concepto creativo</h3>
+        <p class="lv-card-note">Coste por 1.000 personas alcanzadas en campañas de alcance; arriba, lo más barato.</p>
+        <div class="lv-hbars" data-draw="chart" data-chart="cr-aw" data-source="cr_aw_concept"></div>
+      </article>
+    </div>
+
+    <article class="lv-card" id="cr-web">
+      <h3 class="lv-card-title">Venta web: ¿falla el anuncio o la web?</h3>
+      <p class="lv-card-note">Anuncios de campañas de venta web. Si el anuncio engancha y consigue clics pero las visitas no compran, el problema está después del clic.</p>
+      <div class="lv-tiles">
+        <div class="lv-tile"><span class="lv-tile-label">Enganche del vídeo</span><span class="lv-tile-num" data-draw="kpi" data-source="cr_web" data-row="0" data-field="hook_rate" data-fmt="pct">—</span><span class="lv-tile-note">Impresiones que llegan a 3 s</span></div>
+        <div class="lv-tile"><span class="lv-tile-label">CTR</span><span class="lv-tile-num" data-draw="kpi" data-source="cr_web" data-row="0" data-field="ctr" data-fmt="pct">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="cr_web" data-row="0" data-field="link_clicks" data-fmt="int">—</span> clics</span></div>
+        <div class="lv-tile"><span class="lv-tile-label">Visitas a la web</span><span class="lv-tile-num" data-draw="kpi" data-source="cr_web" data-row="0" data-field="landing_page_views" data-fmt="int">—</span></div>
+        <div class="lv-tile"><span class="lv-tile-label">Visitas que compran</span><span class="lv-tile-num" data-draw="kpi" data-source="cr_web" data-row="0" data-field="visit_to_purchase" data-fmt="pct">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="cr_web" data-row="0" data-field="purchases" data-fmt="int">—</span> compras según el píxel</span></div>
+      </div>
+    </article>
+
+    <article class="lv-card" id="cr-piezas">
+      <h3 class="lv-card-title">Piezas</h3>
+      <p class="lv-card-note">Anuncios con al menos el 1 % de la inversión de su tipo. El coste por resultado se compara con la media de su tipo (conversaciones, compras, visitas o 1.000 alcanzados).</p>
+      <div class="lv-scroll">
+        <table class="lv-table" data-source="cr_pieces" data-row-key="account_name,ad_name">
+          <thead><tr>
+            <th data-field="ad_name" class="lv-left" data-cell="lv-wrap">Anuncio</th>
+            <th data-field="type" class="lv-left">Tipo</th>
+            <th data-field="concept" class="lv-left">Concepto</th>
+            <th data-field="format" class="lv-left">Formato</th>
+            <th data-field="destination" class="lv-left">Destino</th>
+            <th data-field="copy" class="lv-left" data-cell="lv-wrap">Copy</th>
+            <th data-field="spend" data-fmt="cop" data-bar aria-sort="descending">Inversión</th>
+            <th data-field="cost_per_result" data-fmt="cop">Coste / resultado</th>
+            <th data-field="vs_type" data-fmt="delta" data-good="down">vs. media del tipo</th>
+            <th data-field="hook_rate" data-fmt="pct">Enganche</th>
+          </tr></thead>
+          <tbody data-draw="tbl"></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="lv-card" id="cr-reglas">
+      <h3 class="lv-card-title">Cómo se clasifica cada anuncio</h3>
+      <ul class="lv-list lv-small">
+        <li><b>Concepto</b>, por palabras del nombre del anuncio, en este orden: Humor / meme («meme»), Textura («food porn»), Reseñas («review», «reseña»), Tienda / apertura («tienda», «local», «apertura», «inauguración», «visítanos»), Evento («feria», «festival», «evento»), Regalo / ocasión («regalo», «reuniones», «madres», «padres», «Halloween», «Navidad», «Black Friday», «amor», «mundial»), Formatos / precio («tamaños», «precio», «formatos», «carrusel») y Producto / sabor («producto», «sabor», «nuevo», «lanzamiento», «colección»). El resto es «Otro». Nombrar los anuncios con estas palabras mantiene la clasificación al día.</li>
+        <li><b>Destino</b>, por el botón del anuncio: WhatsApp, Instagram Direct, Perfil de Instagram o Web. Si no tiene botón, por el nombre («WhatsApp», «IG Direct»).</li>
+        <li><b>Formato</b>, por el tipo de medio que informa Meta: vídeo, carrusel o imagen.</li>
+        <li><b>Tipo de resultado</b>, igual que en Rendimiento: mensajes, venta web, tráfico o alcance, según el objetivo de la campaña.</li>
+        <li>Los gráficos solo muestran grupos con una parte mínima de la inversión de su tipo, para no sacar conclusiones de cuatro pesos.</li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- INSTAGRAM -->
+  <section class="lv-page" id="instagram" hidden>
+    <div>
+      <h2 class="lv-h2">Instagram · @__LV_IG_USERNAME__</h2>
+      <p class="lv-sub"><span data-draw="periodo" data-cap="1">—</span>, comparado con el periodo anterior de la misma duración. El alcance incluye el contenido promocionado con anuncios.</p>
+      <p class="lv-lede">La cuenta llegó de media a <b data-draw="kpi" data-source="ig_kpis2" data-row="0" data-field="reach_avg" data-fmt="intc" data-fetchpriority="high">—</b> cuentas al día y sus publicaciones engancharon al <b data-draw="kpi" data-source="ig_kpis2" data-row="0" data-field="engagement_rate" data-fmt="pct">—</b> de quienes las vieron. Hay <b data-draw="kpi" data-source="ig_alert_count" data-row="0" data-field="alta" data-fmt="int">—</b> alertas de prioridad alta y <b data-draw="kpi" data-source="ig_alert_count" data-row="0" data-field="oportunidad" data-fmt="int">—</b> oportunidades.</p>
+    </div>
+
+    <div class="lv-tiles" id="ig-kpis">
+      <div class="lv-tile"><span class="lv-tile-label">Seguidores</span><span class="lv-tile-num" data-draw="kpi" data-source="ig_kpis2" data-row="0" data-field="followers" data-fmt="int" data-fetchpriority="high">—</span><span class="lv-tile-note">+<span data-draw="kpi" data-source="ig_kpis2" data-row="0" data-field="new_followers_30d" data-fmt="int">—</span> nuevos en los últimos 30 días</span></div>
+      <div class="lv-tile"><span class="lv-tile-label">Alcance medio diario</span><span class="lv-tile-num" data-draw="kpi" data-source="ig_kpis2" data-row="0" data-field="reach_avg" data-fmt="intc">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="ig_kpis2" data-row="0" data-field="reach_delta" data-fmt="delta" data-good="up">—</span> vs. anterior · <span data-draw="kpi" data-source="ig_kpis2" data-row="0" data-field="non_follower_share" data-fmt="pct">—</span> no seguidores</span></div>
+      <div class="lv-tile"><span class="lv-tile-label">Interacciones</span><span class="lv-tile-num" data-draw="kpi" data-source="ig_kpis2" data-row="0" data-field="interactions" data-fmt="intc">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="ig_kpis2" data-row="0" data-field="interactions_delta" data-fmt="delta" data-good="up">—</span> vs. periodo anterior</span></div>
+      <div class="lv-tile"><span class="lv-tile-label">Tasa de interacción</span><span class="lv-tile-num" data-draw="kpi" data-source="ig_kpis2" data-row="0" data-field="engagement_rate" data-fmt="pct">—</span><span class="lv-tile-note">Interacciones ÷ alcance de los posts · <span data-draw="kpi" data-source="ig_kpis2" data-row="0" data-field="engagement_rate_delta" data-fmt="delta" data-good="up">—</span></span></div>
+      <div class="lv-tile"><span class="lv-tile-label">Publicaciones por semana</span><span class="lv-tile-num" data-draw="kpi" data-source="ig_kpis2" data-row="0" data-field="posts_per_week" data-fmt="dec1">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="ig_kpis2" data-row="0" data-field="posts" data-fmt="int">—</span> en el periodo · <span data-draw="kpi" data-source="ig_kpis2" data-row="0" data-field="posts_per_week_delta" data-fmt="delta" data-good="up">—</span></span></div>
+    </div>
+
+    <article class="lv-card" id="ig-alertas">
+      <h3 class="lv-card-title">A qué prestar atención</h3>
+      <p class="lv-card-note">Alertas generadas por reglas fijas, de la más urgente a la menos. Se recalculan cada vez que abres el dashboard o cambias el periodo.</p>
+      <ol class="lv-alerts" data-draw="alerts" data-source="ig_alerts"></ol>
+    </article>
+
+    <article class="lv-card" id="ig-tendencia">
+      <h3 class="lv-card-title">Tendencia semanal</h3>
+      <p class="lv-card-note">Alcance por semana (suma de los días). Pasa el cursor para ver interacciones y publicaciones de cada semana.</p>
+      <div class="lv-chart lv-short" data-draw="chart" data-chart="ig-weekly" data-source="ig_weekly"></div>
+    </article>
+
+    <div class="lv-grid">
+      <article class="lv-card" id="ig-mejores">
+        <h3 class="lv-card-title">Lo que mejor funcionó</h3>
+        <p class="lv-card-note">Mayor tasa de interacción del periodo. Toca el texto para abrir la publicación.</p>
+        <div class="lv-scroll">
+          <table class="lv-table" data-source="ig_best" data-row-key="media_id">
+            <thead><tr>
+              <th data-field="caption" class="lv-left" data-cell="lv-wrap" data-link="permalink">Publicación</th>
+              <th data-field="format" class="lv-left">Formato</th>
+              <th data-field="reach" data-fmt="intc">Alcance</th>
+              <th data-field="engagement_rate" data-fmt="pct" aria-sort="descending">Tasa</th>
+            </tr></thead>
+            <tbody data-draw="tbl"></tbody>
+          </table>
+        </div>
+      </article>
+      <article class="lv-card" id="ig-peores">
+        <h3 class="lv-card-title">Lo que peor funcionó</h3>
+        <p class="lv-card-note">Menor tasa de interacción del periodo, entre las publicaciones con un alcance mínimo.</p>
+        <div class="lv-scroll">
+          <table class="lv-table" data-source="ig_worst" data-row-key="media_id">
+            <thead><tr>
+              <th data-field="caption" class="lv-left" data-cell="lv-wrap" data-link="permalink">Publicación</th>
+              <th data-field="format" class="lv-left">Formato</th>
+              <th data-field="reach" data-fmt="intc">Alcance</th>
+              <th data-field="engagement_rate" data-fmt="pct" aria-sort="ascending">Tasa</th>
+            </tr></thead>
+            <tbody data-draw="tbl"></tbody>
+          </table>
+        </div>
+      </article>
+    </div>
+
+    <article class="lv-card" id="ig-lectura">
+      <h3 class="lv-card-title">Lectura del contenido</h3>
+      <!--LV_READING:ig-lectura-->
+      <p class="lv-card-note">Lectura pendiente. Pide a Claude «actualiza las lecturas del dashboard» y la escribirá aquí a partir de tus datos.</p>
+      <ul class="lv-find">
+        <li><span class="lv-dot warn"></span><span>Todavía no hay lectura.</span></li>
+      </ul>
+      <!--/LV_READING-->
+    </article>
+
+    <div class="lv-grid">
+      <article class="lv-card" id="ig-formato">
+        <h3 class="lv-card-title">Interacción por formato</h3>
+        <p class="lv-card-note">Tasa de interacción de cada formato; debajo, publicaciones y alcance medio.</p>
+        <div class="lv-hbars" data-draw="chart" data-chart="ig-format" data-source="ig_by_format"></div>
+      </article>
+      <article class="lv-card" id="ig-tema">
+        <h3 class="lv-card-title">Interacción por tema</h3>
+        <p class="lv-card-note">Tema según palabras del texto de la publicación.</p>
+        <div class="lv-hbars" data-draw="chart" data-chart="ig-theme" data-source="ig_by_theme"></div>
+      </article>
+      <article class="lv-card" id="ig-largo">
+        <h3 class="lv-card-title">Interacción por largo del texto</h3>
+        <p class="lv-card-note">Corto, medio o largo según los caracteres del texto.</p>
+        <div class="lv-hbars" data-draw="chart" data-chart="ig-length" data-source="ig_by_length"></div>
+      </article>
+      <article class="lv-card" id="ig-dia">
+        <h3 class="lv-card-title">Interacción por día de publicación</h3>
+        <p class="lv-card-note">Con pocas publicaciones por día, tómalo como orientación.</p>
+        <div class="lv-hbars" data-draw="chart" data-chart="ig-day" data-source="ig_by_day"></div>
+      </article>
+    </div>
+
+    <article class="lv-card" id="ig-reglas">
+      <h3 class="lv-card-title">Cómo se clasifica cada publicación</h3>
+      <ul class="lv-list lv-small">
+        <li><b>Tasa de interacción</b>: me gusta, comentarios, guardados y compartidos ÷ cuentas alcanzadas por la publicación.</li>
+        <li><b>Tema</b>, por palabras del texto, en este orden: Tienda / evento («abrimos», «ya estamos en», «nos vemos en», «feria»…), Fecha especial («día de…», «abuelos», «madres», «amor y amistad», «Halloween»…), Promo / sorteo («gratis», «regalamos», «combo», un precio…), Lanzamiento / sabor («nuevo», «edición limitada», «ya está disponible», «se queda»…) e Historia / equipo («equipo», «gracias», «corazón», «detrás», «historia»…). El resto es «Antojo / humor».</li>
+        <li><b>Largo del texto</b>: corto hasta <span data-draw="kpi" data-source="ig_rules" data-row="0" data-field="short_caption" data-fmt="int">—</span> caracteres; largo desde <span data-draw="kpi" data-source="ig_rules" data-row="0" data-field="long_caption" data-fmt="int">—</span>.</li>
+        <li>Las publicaciones con menos de <span data-draw="kpi" data-source="ig_rules" data-row="0" data-field="min_reach" data-fmt="int">—</span> cuentas alcanzadas no cuentan en mejores, peores ni patrones: suelen ser pruebas o duplicados.</li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- FACEBOOK -->
+  <section class="lv-page" id="facebook" hidden>
+    <div>
+      <h2 class="lv-h2">Página de Facebook · __LV_PAGE_NAME__</h2>
+      <p class="lv-sub"><span data-draw="periodo" data-cap="1">—</span>, comparado con el periodo anterior de la misma duración.</p>
+      <p class="lv-lede">La página tiene <b data-draw="kpi" data-source="fb_kpis2" data-row="0" data-field="followers" data-fmt="int" data-fetchpriority="high">—</b> seguidores y publicó <b data-draw="kpi" data-source="fb_kpis2" data-row="0" data-field="posts" data-fmt="int">—</b> veces en el periodo. Solo el <b data-draw="kpi" data-source="fb_kpis2" data-row="0" data-field="organic_share" data-fmt="pct">—</b> de sus visualizaciones fue orgánico: hoy funciona como identidad de los anuncios, no como canal propio.</p>
+    </div>
+
+    <div class="lv-tiles" id="fb-kpis">
+      <div class="lv-tile"><span class="lv-tile-label">Seguidores</span><span class="lv-tile-num" data-draw="kpi" data-source="fb_kpis2" data-row="0" data-field="followers" data-fmt="int">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="fb_kpis2" data-row="0" data-field="net_followers" data-fmt="int">—</span> netos en el periodo</span></div>
+      <div class="lv-tile"><span class="lv-tile-label">Visualizaciones</span><span class="lv-tile-num" data-draw="kpi" data-source="fb_kpis2" data-row="0" data-field="impressions" data-fmt="intc">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="fb_kpis2" data-row="0" data-field="impressions_delta" data-fmt="delta">—</span> vs. anterior · <span data-draw="kpi" data-source="fb_kpis2" data-row="0" data-field="organic_share" data-fmt="pct">—</span> orgánicas</span></div>
+      <div class="lv-tile"><span class="lv-tile-label">Interacciones por 1.000 visualizaciones</span><span class="lv-tile-num" data-draw="kpi" data-source="fb_kpis2" data-row="0" data-field="engagements_per_1000" data-fmt="dec1">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="fb_kpis2" data-row="0" data-field="engagements_per_1000_delta" data-fmt="delta" data-good="up">—</span> vs. periodo anterior</span></div>
+      <div class="lv-tile"><span class="lv-tile-label">Visitas a la página</span><span class="lv-tile-num" data-draw="kpi" data-source="fb_kpis2" data-row="0" data-field="page_views" data-fmt="intc">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="fb_kpis2" data-row="0" data-field="page_views_delta" data-fmt="delta" data-good="up">—</span> vs. periodo anterior</span></div>
+    </div>
+
+    <article class="lv-card" id="fb-alertas">
+      <h3 class="lv-card-title">A qué prestar atención</h3>
+      <p class="lv-card-note">Alertas generadas por reglas fijas, de la más urgente a la menos.</p>
+      <ol class="lv-alerts" data-draw="alerts" data-source="fb_alerts"></ol>
+    </article>
+
+    <article class="lv-card" id="fb-lectura">
+      <h3 class="lv-card-title">Lectura de la página</h3>
+      <!--LV_READING:fb-lectura-->
+      <p class="lv-card-note">Lectura pendiente. Pide a Claude «actualiza las lecturas del dashboard» y la escribirá aquí a partir de tus datos.</p>
+      <ul class="lv-find">
+        <li><span class="lv-dot warn"></span><span>Todavía no hay lectura.</span></li>
+      </ul>
+      <!--/LV_READING-->
+    </article>
+
+    <article class="lv-card" id="fb-tendencia">
+      <h3 class="lv-card-title">Tendencia semanal</h3>
+      <p class="lv-card-note">Visualizaciones de la página por semana. Pasa el cursor para ver las orgánicas, las interacciones y los seguidores nuevos.</p>
+      <div class="lv-chart lv-short" data-draw="chart" data-chart="fb-weekly" data-source="fb_weekly"></div>
+    </article>
+
+    <article class="lv-card" id="fb-posts">
+      <h3 class="lv-card-title">Publicaciones propias</h3>
+      <p class="lv-card-note"><span data-draw="kpi" data-source="fb_kpis2" data-row="0" data-field="posts" data-fmt="int">—</span> en el periodo. Aparecerán aquí, con su alcance e interacción, cuando la página vuelva a publicar.</p>
+      <div class="lv-scroll">
+        <table class="lv-table" data-source="fb_posts_x" data-row-key="post_id">
+          <thead><tr>
+            <th data-field="date" data-fmt="date" class="lv-left" aria-sort="descending">Fecha</th>
+            <th data-field="message" class="lv-left" data-cell="lv-wrap">Publicación</th>
+            <th data-field="impressions" data-fmt="int">Visualizaciones</th>
+            <th data-field="engagements" data-fmt="int">Interacciones</th>
+            <th data-field="engagements_per_1000" data-fmt="dec1">Por 1.000 impr.</th>
+          </tr></thead>
+          <tbody data-draw="tbl"></tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+
+  <!-- WEB GA4 -->
+  <section class="lv-page" id="web" hidden>
+    <div>
+      <h2 class="lv-h2">Web · __LV_GA4_NAME__ (GA4)</h2>
+      <p class="lv-sub"><span data-draw="periodo" data-cap="1">—</span>, comparado con el periodo anterior de la misma duración. Solo pedidos de la tienda web: no incluye WhatsApp, Rappi ni puntos físicos.</p>
+      <p class="lv-lede">La web vendió <b data-draw="kpi" data-source="ga_kpis2" data-row="0" data-field="revenue" data-fmt="copc" data-fetchpriority="high">—</b> en <b data-draw="kpi" data-source="ga_kpis2" data-row="0" data-field="purchases" data-fmt="int">—</b> pedidos (<b data-draw="kpi" data-source="ga_kpis2" data-row="0" data-field="revenue_delta" data-fmt="delta" data-good="up">—</b> en ventas frente al periodo anterior). Hay <b data-draw="kpi" data-source="ga_alert_count" data-row="0" data-field="alta" data-fmt="int">—</b> alertas de prioridad alta y <b data-draw="kpi" data-source="ga_alert_count" data-row="0" data-field="oportunidad" data-fmt="int">—</b> oportunidades.</p>
+    </div>
+
+    <div class="lv-tiles" id="ga-kpis">
+      <div class="lv-tile"><span class="lv-tile-label">Ventas</span><span class="lv-tile-num" data-draw="kpi" data-source="ga_kpis2" data-row="0" data-field="revenue" data-fmt="copc" data-fetchpriority="high">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="ga_kpis2" data-row="0" data-field="revenue_delta" data-fmt="delta" data-good="up">—</span> vs. periodo anterior</span></div>
+      <div class="lv-tile"><span class="lv-tile-label">Pedidos</span><span class="lv-tile-num" data-draw="kpi" data-source="ga_kpis2" data-row="0" data-field="purchases" data-fmt="int">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="ga_kpis2" data-row="0" data-field="purchases_delta" data-fmt="delta" data-good="up">—</span> · ticket medio <span data-draw="kpi" data-source="ga_kpis2" data-row="0" data-field="aov" data-fmt="cop">—</span></span></div>
+      <div class="lv-tile"><span class="lv-tile-label">Conversión</span><span class="lv-tile-num" data-draw="kpi" data-source="ga_kpis2" data-row="0" data-field="conversion_rate" data-fmt="pct">—</span><span class="lv-tile-note">Pedidos por sesión · <span data-draw="kpi" data-source="ga_kpis2" data-row="0" data-field="conversion_rate_delta" data-fmt="delta" data-good="up">—</span></span></div>
+      <div class="lv-tile"><span class="lv-tile-label">Sesiones</span><span class="lv-tile-num" data-draw="kpi" data-source="ga_kpis2" data-row="0" data-field="sessions" data-fmt="intc">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="ga_kpis2" data-row="0" data-field="sessions_delta" data-fmt="delta" data-good="up">—</span> · <span data-draw="kpi" data-source="ga_kpis2" data-row="0" data-field="users" data-fmt="intc">—</span> usuarios</span></div>
+      <div class="lv-tile"><span class="lv-tile-label">Sesiones con interacción</span><span class="lv-tile-num" data-draw="kpi" data-source="ga_kpis2" data-row="0" data-field="engagement_rate" data-fmt="pct">—</span><span class="lv-tile-note"><span data-draw="kpi" data-source="ga_kpis2" data-row="0" data-field="engagement_time" data-fmt="int">—</span> s de interacción por sesión</span></div>
+    </div>
+
+    <article class="lv-card" id="ga-alertas">
+      <h3 class="lv-card-title">A qué prestar atención</h3>
+      <p class="lv-card-note">Alertas generadas por reglas fijas, de la más urgente a la menos. Se recalculan cada vez que abres el dashboard o cambias el periodo.</p>
+      <ol class="lv-alerts" data-draw="alerts" data-source="ga_alerts"></ol>
+    </article>
+
+    <article class="lv-card" id="ga-tendencia">
+      <h3 class="lv-card-title">Tendencia semanal</h3>
+      <p class="lv-card-note">Ventas por semana. Pasa el cursor para ver sesiones, pedidos y conversión de cada semana.</p>
+      <div class="lv-chart lv-short" data-draw="chart" data-chart="ga-weekly" data-source="ga_weekly"></div>
+    </article>
+
+    <div class="lv-grid">
+      <article class="lv-card" id="ga-embudo">
+        <h3 class="lv-card-title">Embudo de compra</h3>
+        <p class="lv-card-note">«Paso» es la parte del paso anterior que llega a este; «vs. anterior» compara ese paso con el periodo anterior.</p>
+        <div class="lv-scroll">
+          <table class="lv-table" data-source="ga_funnel2" data-row-key="step">
+            <thead><tr>
+              <th data-field="step" class="lv-left" aria-sort="ascending">Paso del embudo</th>
+              <th data-field="value" data-fmt="int">Total</th>
+              <th data-field="value_delta" data-fmt="delta" data-good="up">vs. anterior</th>
+              <th data-field="step_rate" data-fmt="pct">Paso</th>
+              <th data-field="step_rate_delta" data-fmt="delta" data-good="up">Paso vs. anterior</th>
+            </tr></thead>
+            <tbody data-draw="tbl"></tbody>
+          </table>
+        </div>
+      </article>
+      <article class="lv-card" id="ga-eventos">
+        <h3 class="lv-card-title">Eventos</h3>
+        <p class="lv-card-note">Eventos con un mínimo de registros en alguno de los dos periodos. Un evento «Desaparecido» suele indicar una etiqueta rota.</p>
+        <div class="lv-scroll">
+          <table class="lv-table" data-source="ga_events" data-row-key="event_name">
+            <thead><tr>
+              <th data-field="event_name" class="lv-left">Evento</th>
+              <th data-field="kind" class="lv-left">Tipo</th>
+              <th data-field="count" data-fmt="int" aria-sort="descending">Registros</th>
+              <th data-field="delta" data-fmt="delta">vs. anterior</th>
+              <th data-field="status" class="lv-left">Estado</th>
+            </tr></thead>
+            <tbody data-draw="tbl"></tbody>
+          </table>
+        </div>
+      </article>
+    </div>
+
+    <article class="lv-card" id="ga-productos">
+      <h3 class="lv-card-title">Productos</h3>
+      <p class="lv-card-note">Productos con un mínimo de vistas o alguna venta. «Al carrito» es la parte de las vistas que termina en el carrito, comparada con la media de los productos.</p>
+      <div class="lv-scroll">
+        <table class="lv-table" data-source="ga_products" data-row-key="item_name">
+          <thead><tr>
+            <th data-field="item_name" class="lv-left">Producto</th>
+            <th data-field="verdict" class="lv-left" data-chip>Veredicto</th>
+            <th data-field="views" data-fmt="int">Vistas</th>
+            <th data-field="cart_rate" data-fmt="pct">Al carrito</th>
+            <th data-field="cart_rate_vs_avg" data-fmt="delta" data-good="up">vs. media</th>
+            <th data-field="purchased" data-fmt="int">Unidades vendidas</th>
+            <th data-field="revenue" data-fmt="cop" data-bar aria-sort="descending">Ingresos</th>
+            <th data-field="revenue_share" data-fmt="pct">% ingresos</th>
+          </tr></thead>
+          <tbody data-draw="tbl"></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="lv-card" id="ga-paginas">
+      <h3 class="lv-card-title">Páginas de entrada</h3>
+      <p class="lv-card-note">Páginas por las que se entra a la web, sin las irrelevantes (sin dato, pasarela de pago, legales, checkout, pedidos). Ojo: muchas compras se atribuyen a la pasarela, así que la conversión real de cada página es algo mayor.</p>
+      <div class="lv-scroll">
+        <table class="lv-table" data-source="ga_pages" data-row-key="landing_page">
+          <thead><tr>
+            <th data-field="page" class="lv-left" data-cell="lv-ellipsis">Página</th>
+            <th data-field="verdict" class="lv-left" data-chip>Veredicto</th>
+            <th data-field="sessions" data-fmt="int" data-bar aria-sort="descending">Sesiones</th>
+            <th data-field="engagement_rate" data-fmt="pct">Interacción</th>
+            <th data-field="cart_rate" data-fmt="pct">Carritos / sesión</th>
+            <th data-field="conversion_rate" data-fmt="pct2">Conversión</th>
+            <th data-field="vs_avg" data-fmt="delta" data-good="up">vs. media</th>
+          </tr></thead>
+          <tbody data-draw="tbl"></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="lv-card" id="ga-canales">
+      <h3 class="lv-card-title">Canales</h3>
+      <p class="lv-card-note">Referral incluye la pasarela de pago y el enlace de la bio de Instagram (Linktree), por eso Organic Social aparece con muy pocas ventas.</p>
+      <div class="lv-scroll">
+        <table class="lv-table" data-source="ga_channels2" data-row-key="channel">
+          <thead><tr>
+            <th data-field="channel" class="lv-left">Canal</th>
+            <th data-field="sessions" data-fmt="int" data-bar>Sesiones</th>
+            <th data-field="sessions_delta" data-fmt="delta" data-good="up">vs. anterior</th>
+            <th data-field="engagement_rate" data-fmt="pct">Interacción</th>
+            <th data-field="purchases" data-fmt="int">Pedidos</th>
+            <th data-field="conversion_rate" data-fmt="pct2">Conversión</th>
+            <th data-field="revenue" data-fmt="cop" aria-sort="descending">Ventas</th>
+            <th data-field="revenue_share" data-fmt="pct">% ventas</th>
+          </tr></thead>
+          <tbody data-draw="tbl"></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="lv-card" id="ga-lectura">
+      <h3 class="lv-card-title">Lectura de la web</h3>
+      <!--LV_READING:ga-lectura-->
+      <p class="lv-card-note">Lectura pendiente. Pide a Claude «actualiza las lecturas del dashboard» y la escribirá aquí a partir de tus datos.</p>
+      <ul class="lv-find">
+        <li><span class="lv-dot warn"></span><span>Todavía no hay lectura.</span></li>
+      </ul>
+      <!--/LV_READING-->
+    </article>
+
+    <div class="lv-grid">
+      <article class="lv-card" id="ga-dispositivo">
+        <h3 class="lv-card-title">Conversión por dispositivo</h3>
+        <div class="lv-hbars" data-draw="chart" data-chart="ga-device" data-source="ga_by_device"></div>
+      </article>
+      <article class="lv-card" id="ga-usuarios">
+        <h3 class="lv-card-title">Nuevos y recurrentes</h3>
+        <div class="lv-hbars" data-draw="chart" data-chart="ga-user" data-source="ga_by_user"></div>
+      </article>
+      <article class="lv-card" id="ga-ciudad">
+        <h3 class="lv-card-title">Conversión por ciudad</h3>
+        <div class="lv-hbars" data-draw="chart" data-chart="ga-city" data-source="ga_by_city"></div>
+      </article>
+      <article class="lv-card" id="ga-dia">
+        <h3 class="lv-card-title">Conversión por día de la semana</h3>
+        <div class="lv-hbars" data-draw="chart" data-chart="ga-day" data-source="ga_by_weekday"></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- FUENTES Y MÉTODO -->
+  <section class="lv-page" id="cobertura" hidden>
+    <article class="lv-card" id="card-coverage">
+      <h2 class="lv-card-title">Fuentes de Trantor cubiertas aquí</h2>
+      <p class="lv-card-note">Los datos llegan en vivo con el acceso de quien abre el dashboard: todas las pestañas (Meta, Instagram, Facebook y Web) desde el conector Trantor.</p>
+      <div class="lv-scroll" style="max-height: none;">
+        <table class="lv-table lv-cov">
+          <thead><tr><th>Fuente de Trantor</th><th>Estado</th><th>Qué se analiza aquí</th></tr></thead>
+          <tbody>
+            <tr><td>Meta Ads</td><td class="lv-ok">Conectada</td><td>Rendimiento y awareness de las cuentas __LV_META_NAMES__: campañas, anuncios, plataformas.</td></tr>
+            <tr><td>Instagram</td><td class="lv-ok">Conectada</td><td>Cuenta @__LV_IG_USERNAME__: alcance, interacciones y publicaciones.</td></tr>
+            <tr><td>Facebook Pages</td><td class="lv-ok">Conectada</td><td>Página __LV_PAGE_NAME__: visualizaciones pagadas y orgánicas, interacción, seguidores.</td></tr>
+            <tr><td>Google Analytics 4</td><td class="lv-ok">Conectada</td><td>Propiedad __LV_GA4_NAME__: web analytics, conversiones, adquisición y páginas de entrada.</td></tr>
+            <tr><td>Google Ads</td><td class="lv-no">No disponible</td><td>No está conectada en este dashboard; GA4 registra muy pocas sesiones de búsqueda pagada.</td></tr>
+            <tr><td>Google Search Console</td><td class="lv-no">Sin conectar</td><td>Haría falta conectarla en Trantor para el análisis SEO orgánico.</td></tr>
+            <tr><td>Web SEO Audit</td><td class="lv-part">Fuera de alcance</td><td>Es un rastreo de la web, no un dato de los conectores.</td></tr>
+            <tr><td>BrandGeo</td><td class="lv-part">Fuera de alcance</td><td>Requiere consultas a modelos de IA; GA4 sí muestra visitas desde asistentes de IA en el canal AI Assistant.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+    <article class="lv-card" id="card-method">
+      <h2 class="lv-card-title">Cómo leer las métricas</h2>
+      <ul class="lv-list">
+        <li><b>Ventas web</b>: ingresos de los eventos <i>purchase</i> de GA4. No incluye pedidos por WhatsApp, Rappi ni puntos físicos.</li>
+        <li><b>Conversaciones</b>: conversaciones de mensajería iniciadas desde anuncios de Meta (WhatsApp, Instagram DM, Messenger), según Meta.</li>
+        <li><b>Compras píxel</b>: compras que el píxel de Meta atribuye a los anuncios con su ventana de atribución; no coinciden con GA4.</li>
+        <li><b>Coste por oportunidad</b>: inversión publicitaria total ÷ (pedidos web + conversaciones iniciadas desde anuncios). Junta los dos caminos de venta; una conversación no es una venta, así que sirve para seguir la tendencia, no como coste por venta.</li>
+        <li><b>Embudo completo</b>: alcance de los anuncios de Meta, interacciones de Instagram y Facebook, sesiones, inicios de pago y compras de GA4, y conversaciones de Meta. Mezcla fuentes con definiciones distintas: las proporciones entre etapas son orientativas.</li>
+        <li><b>Inversión total</b>: suma de las fuentes de pago conectadas. Hoy solo Meta Ads (cuentas __LV_META_NAMES__); Google Ads se sumará cuando se conecte.</li>
+        <li><b>Alcance de Meta</b>: suma de las cuentas; una persona alcanzada por las dos cuenta dos veces.</li>
+        <li><b>Embudo</b>: cuenta eventos (añadir al carrito, inicio de pago, compra), no personas.</li>
+        <li><b>Periodo</b>: hasta ayer. Las publicaciones de Instagram se filtran por fecha de publicación.</li>
+      </ul>
+    </article>
+  </section>
+</div>
+
+<script>
+  const LV_DAYS = { last_15d: 15, last_30d: 30, last_90d: 90, last_180d: 180 };
+  const lvDates = (p) => {
+    const n = LV_DAYS[p] || 15;
+    const day = (k) => {
+      const d = new Date(); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() - k);
+      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    };
+    return { periodo: LV_DAYS[p] ? p : 'last_15d', desde: day(n), hasta: day(1), desde_prev: day(2 * n), hasta_prev: day(n + 1), desde_7d: day(7), desde_30d: day(30) };
+  };
+  dash.setParams(lvDates(dash.params().periodo));
+  const lvShow = (id) => {
+    document.querySelectorAll('.lv-page').forEach((s) => { s.hidden = s.id !== id; });
+    document.querySelectorAll('.lv-tab').forEach((t) => t.setAttribute('aria-selected', String(t.dataset.tab === id)));
+  };
+  document.querySelectorAll('.lv-tab').forEach((t) => t.addEventListener('click', () => { lvShow(t.dataset.tab); dash.setLink(t.dataset.tab); }));
+  const lvStart = document.getElementById(location.hash.slice(1));
+  if (lvStart && lvStart.classList.contains('lv-page')) lvShow(lvStart.id);
+
+  document.querySelectorAll('.lv-period').forEach((sel) => {
+    sel.addEventListener('change', () => dash.setParams(lvDates(sel.value)));
+  });
+  document.querySelectorAll('.lv-sw[data-c]').forEach((s) => { s.style.background = dash.colors[+s.dataset.c]; });
+  document.querySelectorAll('.lv-table thead').forEach((thead) => thead.addEventListener('click', (ev) => {
+    const th = ev.target.closest('th[data-field]');
+    if (!th || !thead.closest('table').dataset.source) return;
+    const next = th.getAttribute('aria-sort') === 'descending' ? 'ascending' : 'descending';
+    thead.querySelectorAll('th').forEach((h) => h.setAttribute('aria-sort', 'none'));
+    th.setAttribute('aria-sort', next);
+    dash.draw('tbl');
+  }));
+  document.querySelectorAll('.lv-alerts').forEach((ol) => ol.addEventListener('click', (ev) => {
+    const li = ev.target.closest('li[data-tab]');
+    if (li && document.getElementById(li.dataset.tab)) { lvShow(li.dataset.tab); dash.setLink(li.dataset.tab); window.scrollTo(0, 0); }
+  }));
+  const LV_AREA_TABS = { 'Web': 'web', 'Meta · Rendimiento': 'meta', 'Meta · Awareness': 'awareness', 'Instagram': 'instagram', 'Facebook': 'facebook' };
+  document.querySelectorAll('#sum-areas').forEach((t) => t.addEventListener('click', (ev) => {
+    const tr = ev.target.closest('tbody tr[data-key]');
+    const id = tr && LV_AREA_TABS[tr.dataset.key];
+    if (id) { lvShow(id); dash.setLink(id); window.scrollTo(0, 0); }
+  }));
+  dash.onData(() => {
+    document.querySelectorAll('.lv-period').forEach((sel) => { sel.value = dash.params().periodo || 'last_15d'; });
+  });
+</script>
+<script src="lv-data.js"></script>
+<script src="lv-meta.js"></script>
+<script src="lv-aw.js"></script>
+<script src="lv-crea.js"></script>
+<script src="lv-ig.js"></script>
+<script src="lv-fb.js"></script>
+<script src="lv-ga.js"></script>
+<script src="lv-sum.js"></script>
+<script src="lv-draw.js"></script>
