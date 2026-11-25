@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "trantor-marketing",
+  "version": "0.3.0",
+  "description": "Crea un dashboard de marketing en vivo con tus datos de Meta Ads, Instagram, Facebook y Google Analytics 4, con alertas priorizadas, comparativa con el periodo anterior y lecturas escritas por Claude.",
+  "author": {
+    "name": "Trantor",
+    "url": "https://trantorai.ws"
+  },
+  "license": "MIT"
+}

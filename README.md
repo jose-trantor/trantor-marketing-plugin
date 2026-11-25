@@ -1,42 +1,50 @@
 # Trantor Marketing
 
-Crea con Claude un dashboard de marketing en vivo a partir de tus cuentas de Meta Ads, Instagram, Facebook y Google Analytics 4, sin conocimientos técnicos. Puedes empezar con una sola pestaña y añadir las demás cuando quieras, dentro de la misma conversación.
+Dashboards e informes de marketing en vivo, creados por un asistente de IA a partir de tus cuentas de Meta Ads, Instagram, Facebook y Google Analytics 4, sin conocimientos técnicos.
 
-## Cómo se usa
+Este repo contiene la integración de Trantor Marketing para cada plataforma de IA. Cada una vive en su propia carpeta, con su README y su versión.
 
-1. Instala el plugin y escribe «quiero empezar con Trantor». Claude te guía: crear la cuenta en Trantor si no la tienes, conectar el conector desde la pestaña **Connectors** y habilitar tus fuentes de datos.
-2. Pide a Claude: «crea mi dashboard de marketing». El orchestrator te pregunta qué pestaña quieres instalar primero.
-3. Claude te hace preguntas de opciones solo para esa área (cuentas publicitarias, campañas, página, Instagram o web según lo que elijas) y crea las pestañas correspondientes.
-4. Añade más pestañas en la misma conversación cuando quieras: «añade Instagram a mi dashboard». A partir de 2 fuentes distintas, se activa también la pestaña **Resumen** con la visión global.
-5. Cuando quieras, pide «actualiza las lecturas del dashboard» y Claude escribirá sus conclusiones en cada pestaña.
+## Plataformas
 
-## Pestañas disponibles
+| Plataforma | Estado         | Versión | Documentación                          |
+| ---------- | -------------- | ------- | -------------------------------------- |
+| Claude     | Disponible     | 0.4.0   | [claude/README.md](claude/README.md)   |
+| ChatGPT    | En preparación | 0.3.0   | [chatgpt/README.md](chatgpt/README.md) |
 
-| Skill | Pestaña instalada |
-|-------|-------------------|
-| **meta-rendimiento** | Meta · Rendimiento (impresiones, clics, coste, ROAS) |
-| **meta-awareness** | Meta · Awareness (alcance, frecuencia, CPM) |
-| **meta-creatividades** | Meta · Creatividades (rendimiento por creatividad) |
-| **instagram** | Instagram (publicaciones, alcance, seguidores) |
-| **facebook** | Facebook (publicaciones, alcance, página) |
-| **ga4** | Web · GA4 (sesiones, canales, eventos, conversiones) |
-| **resumen** | Resumen (embudo global; se activa automáticamente con 2+ fuentes) |
+## Datos y privacidad
 
-Cada pestaña compara el periodo elegido con el anterior, muestra alertas por prioridad y señala qué funciona y qué no.
+Todas las plataformas consultan los datos a través del conector Trantor (<https://trantorai.ws>), siempre con las cuentas que cada persona ha autorizado. Las integraciones no guardan datos propios.
 
-## Skills de soporte
+Para empezar necesitas una cuenta de Trantor (<https://staging.trantorai.ws/signup/>) y tus fuentes habilitadas en <https://staging.trantorai.ws/connectors/>.
 
-- **orchestrator** — punto de entrada; gestiona el flujo incremental y delega en los skills de área.
-- **onboarding** — verifica la conexión y guía la selección de cuentas (soporta selección parcial por área).
+## Estructura del repo
 
-## Desarrollo
-
-Este repo tiene dos ramas: `main` (producción) y `staging`. La única diferencia es `.mcp.json`, que apunta a un servidor distinto en cada rama. Para que los merges entre ramas no sobreescriban ese archivo, ejecuta una vez en tu máquina:
-
-```bash
-git config merge.ours.driver true
+```text
+claude/            Plugin de Claude (skills, MCP, manifest)
+chatgpt/           Plugin de ChatGPT (skills, MCP, manifest; en preparación)
+.claude-plugin/    Marketplace de Claude; apunta a claude/
+Makefile           Genera los zips distribuibles de cada plataforma
+openspec/          Especificaciones y cambios (OpenSpec)
+.claude/           Comandos y skills de desarrollo de este repo; no forman parte del plugin
 ```
 
-## Datos
+## Generar los paquetes
 
-Las consultas se hacen a través del conector Trantor, cada vez que alguien abre el dashboard y con las cuentas que esa persona ha autorizado: métricas de anuncios, publicaciones y analítica web. El plugin no guarda datos propios. El dashboard almacena su configuración (consultas, cálculos y textos) en un manifest que controla qué pestañas están visibles.
+Cada plataforma tiene sus propios targets en el `Makefile`:
+
+| Comando              | Resultado                                                      |
+| -------------------- | -------------------------------------------------------------- |
+| `make claude-build`  | `trantor-marketing-claude[-staging]-<timestamp>.zip`           |
+| `make chatgpt-build` | `trantor-marketing-chatgpt[-staging]-<timestamp>.zip`          |
+| `make claude-clean`  | Borra solo los zips de Claude                                  |
+| `make chatgpt-clean` | Borra solo los zips de ChatGPT                                 |
+| `make help`          | Muestra los nombres y la URL del MCP que se usarán en la rama  |
+
+- `-staging` aparece solo si se construye desde la rama `staging`. `<timestamp>` es la fecha del último commit (`YYYYMMDDTHHMMSS`).
+- El zip de Claude conserva la estructura del marketplace: `.claude-plugin/`, `claude/` y `README.md`.
+- El zip de ChatGPT tiene el contenido de `chatgpt/` en la raíz (`plugin.json`, `mcp.json` y `skills/`). La URL del servidor MCP se fija al construir: staging desde la rama `staging` y producción desde cualquier otra. En el repo, `chatgpt/mcp.json` siempre apunta a producción.
+- Ningún zip incluye `.DS_Store`.
+
+## Licencia
+
+[MIT](LICENSE)

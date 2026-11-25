@@ -1,0 +1,29 @@
+{
+ "description": "Inversión, conversaciones y compras web por día y cuenta en el periodo elegido.",
+ "source": {
+  "args": {
+   "account_ids": "__LV_META_ACCOUNT_IDS__",
+   "date_from": "{{desde}}",
+   "date_to": "{{hasta}}",
+   "fields": [
+    "account_name",
+    "spend",
+    "actions"
+   ],
+   "level": "account",
+   "time_increment": "1"
+  },
+  "connector": "__LV_CONNECTOR__",
+  "kind": "call",
+  "rules": {
+   "desde": {
+    "pattern": "^20[0-9]{2}-[01][0-9]-[0-3][0-9]$"
+   },
+   "hasta": {
+    "pattern": "^20[0-9]{2}-[01][0-9]-[0-3][0-9]$"
+   }
+  },
+  "tool": "meta_insights"
+ },
+ "title": "Meta: inversión por día"
+}
