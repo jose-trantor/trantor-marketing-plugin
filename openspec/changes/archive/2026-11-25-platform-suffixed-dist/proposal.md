@@ -18,11 +18,11 @@ Los targets `claude-build` y `chatgpt-build` generan un zip con el mismo nombre,
 
 ### New Capabilities
 
-- `plugin-packaging`: cómo se generan y se limpian los paquetes distribuibles de cada plataforma: nombre del archivo, estructura interna, endpoint según el entorno y exclusiones.
+(ninguna)
 
 ### Modified Capabilities
 
-(ninguna)
+- `platform-packaging`: se añaden requisitos sobre cómo se generan y se limpian los paquetes distribuibles de cada plataforma: nombre del archivo, estructura interna, endpoint según el entorno y exclusiones.
 
 ## Impact
 

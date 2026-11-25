@@ -1,9 +1,5 @@
 # Spec Delta
 
-## Purpose
-
-Define cómo se generan y se limpian los paquetes distribuibles de Trantor Marketing para cada plataforma (Claude y ChatGPT): nombre, estructura interna, endpoint del servidor MCP según el entorno y archivos excluidos.
-
 ## ADDED Requirements
 
 ### Requirement: Nombre del paquete por plataforma
