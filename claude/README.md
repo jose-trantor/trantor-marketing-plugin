@@ -31,11 +31,15 @@ Cada pestaña compara el periodo elegido con el anterior, muestra alertas por pr
 
 ## Desarrollo
 
-Este repo tiene dos ramas: `main` (producción) y `staging`. La única diferencia es `.mcp.json`, que apunta a un servidor distinto en cada rama. Para que los merges entre ramas no sobreescriban ese archivo, ejecuta una vez en tu máquina:
+Este repo tiene dos ramas: `main` (producción) y `staging`. En el plugin de Claude, la única diferencia entre ellas es `claude/.mcp.json`, que apunta a un servidor distinto en cada rama. Para que los merges entre ramas no sobreescriban ese archivo, ejecuta una vez en tu máquina:
 
 ```bash
 git config merge.ours.driver true
 ```
+
+Sin este comando, git ignora en silencio la regla `merge=ours` de `.gitattributes`. Además, la regla solo actúa cuando las dos ramas han modificado el archivo. Revisa siempre la URL de `claude/.mcp.json` después de un merge.
+
+Para generar el zip del plugin, ejecuta `make claude-build` desde la raíz del repo. Se crea `trantor-marketing-claude[-staging]-<timestamp>.zip` con `.claude-plugin/`, `claude/` y `README.md`. Para borrar los zips de Claude: `make claude-clean`.
 
 ## Datos
 
