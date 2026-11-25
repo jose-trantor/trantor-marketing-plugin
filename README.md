@@ -1,32 +1,34 @@
 # Trantor Marketing
 
-Dashboards e informes de marketing en vivo, creados por un asistente de IA a partir de tus cuentas de Meta Ads, Instagram, Facebook y Google Analytics 4, sin conocimientos técnicos.
+Crea con Claude un dashboard de marketing en vivo a partir de tus cuentas de Meta Ads, Instagram, Facebook y Google Analytics 4, sin conocimientos técnicos. Puedes empezar con una sola pestaña y añadir las demás cuando quieras, dentro de la misma conversación.
 
-Este repo contiene la integración de Trantor Marketing para cada plataforma de IA. Cada una vive en su propia carpeta, con su README y su versión.
+## Cómo se usa
 
-## Plataformas
+1. Instala el plugin y escribe «quiero empezar con Trantor». Claude te guía: crear la cuenta si no la tienes (https://trantorai.ws/signup/), conectar Trantor desde la pestaña **Connectors** del plugin y habilitar tus fuentes en https://trantorai.ws/connectors/.
+2. Pide a Claude: «crea mi dashboard de marketing». El orchestrator te pregunta qué pestaña quieres instalar primero.
+3. Claude te hace preguntas de opciones solo para esa área (cuentas publicitarias, campañas, página, Instagram o web según lo que elijas) y crea las pestañas correspondientes.
+4. Añade más pestañas en la misma conversación cuando quieras: «añade Instagram a mi dashboard». A partir de 2 fuentes distintas, se activa también la pestaña **Resumen** con la visión global.
+5. Cuando quieras, pide «actualiza las lecturas del dashboard» y Claude escribirá sus conclusiones en cada pestaña.
 
-| Plataforma | Estado         | Versión | Documentación                          |
-| ---------- | -------------- | ------- | -------------------------------------- |
-| Claude     | Disponible     | 0.4.0   | [claude/README.md](claude/README.md)   |
-| ChatGPT    | En preparación | —       | [chatgpt/README.md](chatgpt/README.md) |
+## Pestañas disponibles
 
-## Datos y privacidad
+| Skill | Pestaña instalada |
+|-------|-------------------|
+| **meta-rendimiento** | Meta · Rendimiento (impresiones, clics, coste, ROAS) |
+| **meta-awareness** | Meta · Awareness (alcance, frecuencia, CPM) |
+| **meta-creatividades** | Meta · Creatividades (rendimiento por creatividad) |
+| **instagram** | Instagram (publicaciones, alcance, seguidores) |
+| **facebook** | Facebook (publicaciones, alcance, página) |
+| **ga4** | Web · GA4 (sesiones, canales, eventos, conversiones) |
+| **resumen** | Resumen (embudo global; se activa automáticamente con 2+ fuentes) |
 
-Todas las plataformas consultan los datos a través del conector Trantor (<https://trantorai.ws>), siempre con las cuentas que cada persona ha autorizado. Las integraciones no guardan datos propios.
+Cada pestaña compara el periodo elegido con el anterior, muestra alertas por prioridad y señala qué funciona y qué no.
 
-Para empezar necesitas una cuenta de Trantor (<https://staging.trantorai.ws/signup/>) y tus fuentes habilitadas en <https://staging.trantorai.ws/connectors/>.
+## Skills de soporte
 
-## Estructura del repo
+- **orchestrator** — punto de entrada; gestiona el flujo incremental y delega en los skills de área.
+- **onboarding** — verifica la conexión y guía la selección de cuentas (soporta selección parcial por área).
 
-```text
-claude/            Plugin de Claude (skills, MCP, manifest)
-chatgpt/           Integración de ChatGPT (en preparación)
-.claude-plugin/    Marketplace de Claude; apunta a claude/
-openspec/          Especificaciones y cambios (OpenSpec)
-.claude/           Comandos y skills de desarrollo de este repo; no forman parte del plugin
-```
+## Datos
 
-## Licencia
-
-[MIT](LICENSE)
+Las consultas se hacen a través del conector Trantor (`skull-api.trantorai.ws`), cada vez que alguien abre el dashboard y con las cuentas que esa persona ha autorizado: métricas de anuncios, publicaciones y analítica web. El plugin no guarda datos propios. El dashboard almacena su configuración (consultas, cálculos y textos) en un manifest que controla qué pestañas están visibles.
