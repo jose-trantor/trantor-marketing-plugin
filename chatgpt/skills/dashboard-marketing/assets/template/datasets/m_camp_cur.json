@@ -1,0 +1,36 @@
+{
+ "description": "Campañas con inversión en el periodo elegido.",
+ "source": {
+  "args": {
+   "account_ids": "__LV_META_ACCOUNT_IDS__",
+   "date_from": "{{desde}}",
+   "date_to": "{{hasta}}",
+   "fields": [
+    "account_name",
+    "campaign_name",
+    "objective",
+    "spend",
+    "impressions",
+    "reach",
+    "frequency",
+    "inline_link_clicks",
+    "actions",
+    "action_values"
+   ],
+   "level": "campaign",
+   "time_increment": "all_days"
+  },
+  "connector": "__LV_CONNECTOR__",
+  "kind": "call",
+  "rules": {
+   "desde": {
+    "pattern": "^20[0-9]{2}-[01][0-9]-[0-3][0-9]$"
+   },
+   "hasta": {
+    "pattern": "^20[0-9]{2}-[01][0-9]-[0-3][0-9]$"
+   }
+  },
+  "tool": "meta_insights"
+ },
+ "title": "Meta: campañas, periodo"
+}

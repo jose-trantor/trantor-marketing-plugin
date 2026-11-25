@@ -1,0 +1,16 @@
+{
+ "description": "Seguidores actuales de la página.",
+ "source": {
+  "args": {
+   "page_id": "__LV_PAGE_ID__",
+   "fields": [
+    "name",
+    "followers_count"
+   ]
+  },
+  "connector": "__LV_CONNECTOR__",
+  "kind": "call",
+  "tool": "page_info"
+ },
+ "title": "Facebook: seguidores"
+}
