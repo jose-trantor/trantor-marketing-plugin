@@ -10,7 +10,7 @@
       "name": "trantor-marketing",
       "displayName": "Trantor Marketing",
       "description": "Crea un dashboard de marketing en vivo con tus datos de Meta Ads, Instagram, Facebook y Google Analytics 4, con alertas priorizadas, comparativa con el periodo anterior y lecturas escritas por Claude.",
-      "source": "./"
+      "source": "./claude"
     }
   ]
 }
