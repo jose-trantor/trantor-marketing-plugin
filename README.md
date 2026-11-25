@@ -29,6 +29,14 @@ Cada pestaña compara el periodo elegido con el anterior, muestra alertas por pr
 - **orchestrator** — punto de entrada; gestiona el flujo incremental y delega en los skills de área.
 - **onboarding** — verifica la conexión y guía la selección de cuentas (soporta selección parcial por área).
 
+## Desarrollo
+
+Este repo tiene dos ramas: `main` (producción) y `staging`. La única diferencia es `.mcp.json`, que apunta a un servidor distinto en cada rama. Para que los merges entre ramas no sobreescriban ese archivo, ejecuta una vez en tu máquina:
+
+```bash
+git config merge.ours.driver true
+```
+
 ## Datos
 
 Las consultas se hacen a través del conector Trantor (`skull-api.trantorai.ws`), cada vez que alguien abre el dashboard y con las cuentas que esa persona ha autorizado: métricas de anuncios, publicaciones y analítica web. El plugin no guarda datos propios. El dashboard almacena su configuración (consultas, cálculos y textos) en un manifest que controla qué pestañas están visibles.
