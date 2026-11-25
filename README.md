@@ -4,7 +4,7 @@ Crea con Claude un dashboard de marketing en vivo a partir de tus cuentas de Met
 
 ## Cómo se usa
 
-1. Instala el plugin y escribe «quiero empezar con Trantor». Claude te guía: crear la cuenta si no la tienes (https://trantorai.ws/signup/), conectar Trantor desde la pestaña **Connectors** del plugin y habilitar tus fuentes en https://trantorai.ws/connectors/.
+1. Instala el plugin y escribe «quiero empezar con Trantor». Claude te guía: crear la cuenta en Trantor si no la tienes, conectar el conector desde la pestaña **Connectors** y habilitar tus fuentes de datos.
 2. Pide a Claude: «crea mi dashboard de marketing». El orchestrator te pregunta qué pestaña quieres instalar primero.
 3. Claude te hace preguntas de opciones solo para esa área (cuentas publicitarias, campañas, página, Instagram o web según lo que elijas) y crea las pestañas correspondientes.
 4. Añade más pestañas en la misma conversación cuando quieras: «añade Instagram a mi dashboard». A partir de 2 fuentes distintas, se activa también la pestaña **Resumen** con la visión global.
@@ -39,4 +39,4 @@ git config merge.ours.driver true
 
 ## Datos
 
-Las consultas se hacen a través del conector Trantor (`skull-api.trantorai.ws`), cada vez que alguien abre el dashboard y con las cuentas que esa persona ha autorizado: métricas de anuncios, publicaciones y analítica web. El plugin no guarda datos propios. El dashboard almacena su configuración (consultas, cálculos y textos) en un manifest que controla qué pestañas están visibles.
+Las consultas se hacen a través del conector Trantor, cada vez que alguien abre el dashboard y con las cuentas que esa persona ha autorizado: métricas de anuncios, publicaciones y analítica web. El plugin no guarda datos propios. El dashboard almacena su configuración (consultas, cálculos y textos) en un manifest que controla qué pestañas están visibles.
