@@ -20,7 +20,7 @@ help:
 claude-build:
 	@mkdir -p $(BUILD_DIR)
 	@echo "→ Generando $(DIST)..."
-	@zip -r $(DIST) claude/ .claude-plugin/ README.md
+	@zip -r $(DIST) claude/
 	@echo "✓ $(DIST)"
 
 claude-clean:
