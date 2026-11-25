@@ -7,19 +7,19 @@ else
 DIST := trantor-marketing-$(TIMESTAMP).zip
 endif
 
-.PHONY: help build clean
+.PHONY: help claude-build claude-clean
 
 help:
 	@echo "Trantor Marketing Plugin"
 	@echo ""
-	@echo "  build   - Crea el zip del plugin (rama: $(BRANCH))"
-	@echo "  clean   - Elimina los zips generados"
+	@echo "  claude-build   - Crea el zip del plugin de Claude (rama: $(BRANCH))"
+	@echo "  claude-clean   - Elimina los zips del plugin de Claude"
 
-build:
+claude-build:
 	@echo "→ Generando $(DIST)..."
 	@zip -r $(DIST) claude/ .claude-plugin/ README.md
 	@echo "✓ $(DIST)"
 
-clean:
+claude-clean:
 	@rm -f trantor-marketing-*.zip
 	@echo "✓ Zips eliminados"
