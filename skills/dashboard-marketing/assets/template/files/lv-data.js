@@ -8,8 +8,10 @@
     .then(function (manifest) {
       if (!manifest || !Array.isArray(manifest.installed_tabs)) return;
       var tabs = manifest.installed_tabs;
-      // Hide resumen when fewer than 2 distinct areas are installed
-      var areaCount = tabs.filter(function (t) { return t !== 'resumen'; }).length;
+      // Hide resumen unless 2+ distinct source areas are installed.
+      // Meta contributes 3 tab names (meta/awareness/creatividades) but counts as 1 area.
+      var AREA_GROUP = { meta: 'meta', awareness: 'meta', creatividades: 'meta', instagram: 'instagram', facebook: 'facebook', web: 'web' };
+      var areaCount = new Set(tabs.map(function (t) { return AREA_GROUP[t]; }).filter(Boolean)).size;
       if (areaCount < 2) tabs = tabs.filter(function (t) { return t !== 'resumen'; });
       document.querySelectorAll('button[data-tab]').forEach(function (btn) {
         var name = btn.getAttribute('data-tab');

@@ -40,10 +40,13 @@ import build_facebook as _fb
 import build_ga4 as _ga4
 import build_resumen as _resumen
 
-ALL_AREAS = ['meta', 'instagram', 'facebook', 'ga4', 'resumen']
+ALL_AREAS = ['meta', 'awareness', 'creatividades', 'instagram', 'facebook', 'ga4', 'resumen']
 
+_META_REQ = ['brand', 'connector', 'meta_account_ids', 'meta_account_names']
 AREA_REQUIRED = {
-    'meta': ['brand', 'connector', 'meta_account_ids', 'meta_account_names'],
+    'meta': _META_REQ,
+    'awareness': _META_REQ,
+    'creatividades': _META_REQ,
     'instagram': ['brand', 'connector', 'ig_id', 'ig_username'],
     'facebook': ['brand', 'connector', 'page_id', 'page_name'],
     'ga4': ['brand', 'connector', 'ga4_property_id', 'ga4_name'],
@@ -88,7 +91,11 @@ ctx.put('dash', 'params', {
 
 for tab in tabs:
     if tab == 'meta':
-        _meta.build(ctx)
+        _meta.build_rendimiento(ctx)
+    elif tab == 'awareness':
+        _meta.build_awareness(ctx)
+    elif tab == 'creatividades':
+        _meta.build_creatividades(ctx)
     elif tab == 'instagram':
         _ig.build(ctx)
     elif tab == 'facebook':

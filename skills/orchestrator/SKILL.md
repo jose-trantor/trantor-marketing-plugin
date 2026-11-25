@@ -13,19 +13,21 @@ Guía al usuario para construir su dashboard de marketing de forma incremental, 
 
 1. Informa al usuario de lo que puede construir:
 
-   > "Puedo crear un dashboard de marketing con estas áreas: **Meta Ads** (anuncios, awareness, creatividades), **Instagram**, **Facebook** y **Web (GA4)**. Puedes empezar con cualquiera y añadir las demás después."
+   > "Puedo crear un dashboard de marketing con estas pestañas: **Meta · Rendimiento**, **Meta · Awareness**, **Meta · Creatividades**, **Instagram**, **Facebook** y **Web (GA4)**. Puedes empezar con cualquiera y añadir las demás después."
 
 2. Pregunta qué área quiere instalar primero con `AskUserQuestion`:
-   - Opciones: "Meta Ads (Recomendada)" / "Instagram" / "Facebook" / "Web (GA4)"
+   - Opciones: "Meta · Rendimiento (Recomendada)" / "Meta · Awareness" / "Meta · Creatividades" / "Instagram" / "Facebook" / "Web (GA4)"
    - Solo una respuesta.
 
 3. Delega en el skill correspondiente:
-   - Meta Ads → skill **meta-ads**
+   - Meta · Rendimiento → skill **meta-rendimiento**
+   - Meta · Awareness → skill **meta-awareness**
+   - Meta · Creatividades → skill **meta-creatividades**
    - Instagram → skill **instagram**
    - Facebook → skill **facebook**
    - GA4 → skill **ga4**
 
-4. Una vez instalada la primera área, comprueba si `installed_tabs` tiene 2+ áreas distintas (ver sección «Resumen automático»). Si no, pregunta si quiere añadir otra área ahora o dejarlo para más adelante.
+4. Una vez instalada la primera área, comprueba si hay 2+ fuentes distintas (ver sección «Resumen automático»). Si no, pregunta si quiere añadir otra área ahora o dejarlo para más adelante.
 
 ### B. Dashboard existente (hay manifest)
 
@@ -34,11 +36,12 @@ Guía al usuario para construir su dashboard de marketing de forma incremental, 
 2. Muestra el estado actual en texto corto:
 
    > **Dashboard: [título]**
-   > Áreas instaladas: Meta Ads ✓ · Instagram ✓ · Facebook — · Web (GA4) —
-   > Resumen: activo (2 áreas)
+   > Meta: Rendimiento ✓ · Awareness ✓ · Creatividades —
+   > Instagram ✓ · Facebook — · Web (GA4) —
+   > Resumen: activo (2 fuentes)
 
-3. Pregunta qué área quiere añadir con `AskUserQuestion`. Ofrece solo las áreas **no instaladas** todavía:
-   - Opciones dinámicas según lo que falta (máximo 4 opciones, una respuesta).
+3. Pregunta qué área quiere añadir con `AskUserQuestion`. Ofrece solo las áreas **no instaladas** todavía (revisa `installed_tabs`):
+   - Opciones dinámicas según lo que falta (máximo 6 opciones, una respuesta).
 
 4. Delega en el skill del área elegida.
 
@@ -46,9 +49,20 @@ Guía al usuario para construir su dashboard de marketing de forma incremental, 
 
 ## Resumen automático
 
-Después de instalar cualquier área, si `installed_tabs` (excluyendo `"resumen"`) tiene **2 o más áreas**, invoca automáticamente el skill **resumen** para actualizar la pestaña Resumen. No preguntes al usuario; hazlo en silencio y luego informa el resultado conjunto.
+Después de instalar cualquier área, cuenta las **fuentes de datos distintas** instaladas. Las 6 pestañas se agrupan así:
 
-Ejemplo: el usuario acaba de instalar Instagram y ya tenía Meta Ads → `installed_tabs = ["meta", "awareness", "creatividades", "instagram"]` → 2 áreas distintas → invocar **resumen** automáticamente.
+| Fuente | Tab names en `installed_tabs` |
+|--------|-------------------------------|
+| Meta | `meta`, `awareness`, `creatividades` (cualquiera de ellas = fuente Meta) |
+| Instagram | `instagram` |
+| Facebook | `facebook` |
+| GA4 (Web) | `web` |
+
+`resumen` no cuenta como fuente. Si hay **2 o más fuentes distintas**, invoca automáticamente el skill **resumen**. No preguntes al usuario; hazlo en silencio y luego informa el resultado conjunto.
+
+Ejemplo: el usuario acaba de instalar Instagram y ya tenía Meta · Rendimiento → `installed_tabs = ["meta", "instagram"]` → Meta = 1 fuente + Instagram = 1 fuente → **2 fuentes distintas** → invocar **resumen** automáticamente.
+
+Ejemplo con 3 pestañas de Meta: `installed_tabs = ["meta", "awareness", "creatividades"]` → solo la fuente Meta → **1 fuente** → NO invocar resumen todavía.
 
 ## Después de cada área
 
