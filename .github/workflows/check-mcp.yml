@@ -1,0 +1,19 @@
+name: Check MCP endpoint
+
+# Comprueba que claude/.mcp.json apunta al servidor que corresponde a la rama:
+# producción en main y staging en staging. En los PR se comprueba el resultado
+# del merge contra la rama de destino.
+
+on:
+  push:
+    branches: [main, staging]
+  pull_request:
+    branches: [main, staging]
+
+jobs:
+  check-mcp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Comprobar claude/.mcp.json
+        run: make check-mcp BRANCH="${{ github.base_ref || github.ref_name }}"
