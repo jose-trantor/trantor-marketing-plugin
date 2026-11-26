@@ -24,6 +24,8 @@ claude/            Plugin de Claude (skills, MCP, manifest)
 chatgpt/           Plugin de ChatGPT (skills, MCP, manifest; en preparación)
 .claude-plugin/    Marketplace de Claude; apunta a claude/
 Makefile           Genera los zips distribuibles de cada plataforma
+development.mk     Comandos para probar el plugin contra el servidor MCP local (incluido por el Makefile)
+dev/               Cliente MCP de desarrollo y lista de tools que usan las skills; no forma parte de los zips
 openspec/          Especificaciones y cambios (OpenSpec)
 .claude/           Comandos y skills de desarrollo de este repo; no forman parte del plugin
 ```
@@ -66,6 +68,56 @@ Cada plataforma tiene sus propios targets en el `Makefile`. Los zips se generan 
 4. El workflow `.github/workflows/check-mcp.yml` repite la comprobación en cada push a `main` y `staging` y en cada PR contra ellas, con el resultado del merge. Para que bloquee los merges, márcalo como check obligatorio en la protección de ramas de GitHub.
 
 Si el check falla, corrige la URL de `claude/.mcp.json` a mano en un commit aparte. Ni CI ni el `Makefile` la cambian por ti.
+
+## Desarrollo en local
+
+Los comandos de `development.mk` comprueban el servidor MCP (`skull-api`) y prueban el plugin contra él **sin tocar `claude/.mcp.json`**. Todo lo que generan va a `builds/.dev/`, que git ignora.
+
+Requisitos: `python3`, la CLI `claude` y un clon de `skull-api` (por defecto en `../skull-api`; si no, pásalo con `SKULL_API_DIR=<ruta>`).
+
+### Flujo
+
+```sh
+# 1. En skull-api: arranca el servidor en http://localhost:8001
+make -C ../skull-api run
+
+# 2. Aquí: genera un token MCP y expórtalo (la última línea de la salida)
+make mcp-token USER_ID=<tu-user-id>
+export MCP_TOKEN=eyJ...
+
+# 3. Comprueba el servidor y que expone las tools de las skills
+make mcp-ping
+make mcp-contract
+
+# 4. Abre Claude Code con una copia del plugin apuntando al servidor local
+make dev-claude
+```
+
+Usa un `USER_ID` que tenga fuentes conectadas en ese entorno. Si no, las tools responden que la fuente no está conectada.
+
+### Comandos
+
+| Comando             | Qué hace                                                                                   |
+| ------------------- | ------------------------------------------------------------------------------------------ |
+| `make mcp-token`    | Genera un token MCP (`aud=mcp`) con skull-api para `USER_ID`. No genera tokens de `prod`   |
+| `make mcp-ping`     | Hace el handshake MCP y muestra el nombre y la versión del servidor                        |
+| `make mcp-tools`    | Lista las tools del servidor                                                               |
+| `make mcp-contract` | Falla si el servidor no expone alguna tool de `dev/mcp-tools.txt`; avisa de las que sobran |
+| `make dev-plugin`   | Copia `claude/` a `builds/.dev/claude/` con el MCP y el token del entorno de pruebas       |
+| `make dev-claude`   | Genera la copia y abre `claude --plugin-dir builds/.dev/claude`                            |
+| `make dev-clean`    | Borra `builds/.dev/` (los zips no se tocan)                                                |
+
+Por defecto apuntan a `http://localhost:8001/mcp`. Para usar otro servidor:
+
+- `MCP_TARGET=staging` o `MCP_TARGET=prod` usan las URLs de la tabla anterior. Con `MCP_TARGET=staging`, `mcp-token` firma el token con el secreto de staging (necesita acceso a AWS SSM).
+- `MCP_DEV_URL=<url>` usa cualquier URL, por ejemplo `https://localhost:8001/mcp` con `make run-https` en skull-api.
+
+### Notas
+
+- **El token no se guarda en disco.** El `.mcp.json` de la copia contiene `Bearer ${MCP_TOKEN}`, y Claude Code lo sustituye al arrancar. Si el token caduca, genera otro y vuelve a abrir la sesión.
+- **Tools con el mismo nombre.** En la copia, el plugin se llama `trantor-marketing-dev` y sus tools son `mcp__plugin_trantor-marketing-dev_trantor__*`. Si también tienes instalado el plugin del marketplace o los conectores de Trantor de claude.ai, verás las mismas tools varias veces. Desactívalos mientras pruebas, o fíjate en el prefijo de la tool que se llama.
+- **`dev/mcp-tools.txt`** lista las tools de las que dependen las skills. Actualízala en el mismo PR en que una skill empiece o deje de usar una tool.
+- Para depurar a mano también sirve el inspector oficial: `npx @modelcontextprotocol/inspector`, con transporte *Streamable HTTP*, la URL del servidor y la cabecera `Authorization: Bearer $MCP_TOKEN`.
 
 ## Licencia
 
