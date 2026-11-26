@@ -134,6 +134,25 @@ En la rama `main`, `claude/.mcp.json` SHALL apuntar a `https://skull-api.trantor
 - **WHEN** se ejecuta `make check-mcp` en una rama distinta de `main` y `staging`
 - **THEN** el comando muestra la URL configurada y termina sin error
 
+### Requirement: Corrección manual del endpoint de Claude
+`make fix-mcp` SHALL sustituir en `claude/.mcp.json` la URL conocida equivocada por la de la rama actual (`main` o `staging`) y repetir la comprobación de `make check-mcp`. No SHALL hacer commit. En otras ramas, o si la URL no es ninguna conocida, SHALL terminar con error sin modificar el archivo. Ni `check-mcp`, ni `claude-build`, ni CI SHALL corregir la URL.
+
+#### Scenario: URL de staging en main
+- **WHEN** se ejecuta `make fix-mcp` en `main` y `claude/.mcp.json` contiene la URL de staging
+- **THEN** el archivo pasa a contener la URL de producción, `make check-mcp` pasa y no se crea ningún commit
+
+#### Scenario: URL ya correcta
+- **WHEN** se ejecuta `make fix-mcp` en `staging` y `claude/.mcp.json` contiene la URL de staging
+- **THEN** el comando indica que no hay nada que hacer, termina sin error y el archivo no cambia
+
+#### Scenario: Rama de feature
+- **WHEN** se ejecuta `make fix-mcp` en una rama distinta de `main` y `staging`
+- **THEN** el comando termina con error y el archivo no cambia
+
+#### Scenario: URL desconocida
+- **WHEN** se ejecuta `make fix-mcp` en `main` y `claude/.mcp.json` no contiene ni la URL de producción ni la de staging
+- **THEN** el comando termina con error y el archivo no cambia
+
 ### Requirement: El build de Claude exige el endpoint correcto
 `make claude-build` SHALL hacer la misma comprobación que `make check-mcp` antes de generar el zip, y no SHALL generarlo si falla.
 
