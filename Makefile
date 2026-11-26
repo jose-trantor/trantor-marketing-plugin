@@ -31,13 +31,14 @@ CLAUDE_DIST  := $(call dist,claude)
 CHATGPT_DIST := $(call dist,chatgpt)
 CHATGPT_TMP  := $(OUT_DIR)/.chatgpt
 
-.PHONY: help setup check-mcp claude-build claude-clean chatgpt-build chatgpt-clean
+.PHONY: help setup check-mcp fix-mcp claude-build claude-clean chatgpt-build chatgpt-clean
 
 help:
 	@echo "Trantor Marketing Plugin"
 	@echo ""
 	@echo "  setup          - Configura el driver de merge 'ours' en este clon (una vez)"
 	@echo "  check-mcp      - Comprueba la URL de claude/.mcp.json para la rama $(BRANCH)"
+	@echo "  fix-mcp        - Corrige la URL de claude/.mcp.json para la rama $(BRANCH) (sin commit)"
 	@echo "  claude-build   - Crea $(CLAUDE_DIST)"
 	@echo "  claude-clean   - Elimina los zips del plugin de Claude"
 	@echo "  chatgpt-build  - Crea $(CHATGPT_DIST) (MCP: $(MCP_URL))"
@@ -56,8 +57,29 @@ check-mcp:
 		echo "✓ claude/.mcp.json → $$found (rama $(BRANCH))"; \
 	else \
 		echo "✗ claude/.mcp.json apunta a $${found:-una URL desconocida}; en la rama $(BRANCH) debe ser $(CLAUDE_MCP_EXPECTED)"; \
+		echo "  Corrígelo con 'make fix-mcp' y haz commit del cambio por separado."; \
 		exit 1; \
 	fi
+
+# Corrección manual: solo cuando la lanzas tú. Ni check-mcp, ni claude-build ni CI la usan,
+# para que una URL equivocada siempre se vea. No hace commit.
+fix-mcp:
+	@[ -n "$(CLAUDE_MCP_EXPECTED)" ] || { \
+		echo "✗ En la rama $(BRANCH) no hay URL esperada; fix-mcp solo funciona en main y staging"; exit 1; }
+	@found=$$(grep -oF -e '$(MCP_URL_PROD)' -e '$(MCP_URL_STAGING)' claude/.mcp.json | head -1); \
+	if [ "$$found" = "$(CLAUDE_MCP_EXPECTED)" ]; then \
+		echo "✓ claude/.mcp.json ya apunta a $$found (rama $(BRANCH)); nada que hacer"; exit 0; \
+	fi; \
+	if [ -z "$$found" ]; then \
+		echo "✗ claude/.mcp.json no contiene ninguna URL conocida; revísalo y corrígelo a mano"; exit 1; \
+	fi; \
+	sed "s|$$found|$(CLAUDE_MCP_EXPECTED)|g" claude/.mcp.json > claude/.mcp.json.tmp && \
+		mv claude/.mcp.json.tmp claude/.mcp.json; \
+	echo "→ claude/.mcp.json: $$found → $(CLAUDE_MCP_EXPECTED)"; \
+	$(MAKE) --no-print-directory check-mcp || exit 1; \
+	git --no-pager diff --stat -- claude/.mcp.json; \
+	echo "  Haz commit de este cambio por separado:"; \
+	echo "  git commit -m 'fix: Point Claude MCP to $(BRANCH) URL' claude/.mcp.json"
 
 claude-build: check-mcp
 	@echo "→ Generando $(CLAUDE_DIST)..."

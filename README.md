@@ -41,6 +41,7 @@ Cada plataforma tiene sus propios targets en el `Makefile`. Los zips se generan 
 | `make claude-clean`  | Borra solo los zips de Claude (y `builds/` si queda vacía)           |
 | `make chatgpt-clean` | Borra solo los zips de ChatGPT (y `builds/` si queda vacía)          |
 | `make check-mcp`     | Comprueba la URL del MCP de Claude para la rama actual               |
+| `make fix-mcp`       | Corrige la URL del MCP de Claude para la rama actual (sin commit)    |
 | `make setup`         | Configura el driver de merge `ours` en tu clon (una vez)             |
 | `make help`          | Muestra los nombres y las URLs que se usarán en la rama actual       |
 
@@ -67,7 +68,7 @@ Cada plataforma tiene sus propios targets en el `Makefile`. Los zips se generan 
 3. Después de cada merge entre `main` y `staging`, ejecuta `make check-mcp`. Falla si la URL no es la de la rama. `make claude-build` hace la misma comprobación y no genera el zip si falla.
 4. El workflow `.github/workflows/check-mcp.yml` repite la comprobación en cada push a `main` y `staging` y en cada PR contra ellas, con el resultado del merge. Para que bloquee los merges, márcalo como check obligatorio en la protección de ramas de GitHub.
 
-Si el check falla, corrige la URL de `claude/.mcp.json` a mano en un commit aparte. Ni CI ni el `Makefile` la cambian por ti.
+Si el check falla, ejecuta `make fix-mcp` en esa rama: sustituye la URL equivocada por la que corresponde, vuelve a ejecutar `check-mcp` y te muestra el cambio. No hace commit: haz el commit tú, aparte. Solo funciona en `main` y `staging`, y no toca el archivo si la URL no es ninguna de las dos conocidas. Ni `check-mcp`, ni `claude-build`, ni CI corrigen la URL por su cuenta, para que el error siempre se vea.
 
 ## Desarrollo en local
 
