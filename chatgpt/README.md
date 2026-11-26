@@ -22,7 +22,7 @@ Desde la raíz del repo:
 make chatgpt-build
 ```
 
-Genera `trantor-marketing-chatgpt[-staging]-<timestamp>.zip` con `plugin.json`, `mcp.json` y `skills/` en la raíz del zip.
+Genera `builds/trantor-marketing-chatgpt[-staging]-<timestamp>.zip` con `plugin.json`, `mcp.json` y `skills/` en la raíz del zip.
 
 `mcp.json` apunta siempre a producción (`https://skull-api.trantorai.ws/mcp`) en todas las ramas. Si construyes desde la rama `staging`, el paquete se genera con la URL de staging (`https://skull-api-staging.trantorai.ws/mcp`). Por eso, a diferencia de Claude, este archivo no necesita reglas de merge entre ramas. Si cambias la URL de producción en `mcp.json`, actualiza también `MCP_URL_PROD` en el `Makefile`. Si no coinciden, el build de staging falla.
 
