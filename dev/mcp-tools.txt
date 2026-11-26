@@ -1,0 +1,23 @@
+# Tools del servidor MCP de Trantor de las que dependen las skills de claude/skills/.
+#
+# `make mcp-contract` falla si el servidor no expone alguna de estas tools.
+# Actualiza esta lista en el mismo PR en que una skill empiece o deje de usar una tool.
+# Una tool por línea; lo que va tras `#` se ignora. Cada tool aparece una vez,
+# en el grupo de la primera skill que la usa.
+
+# onboarding: descubrimiento de cuentas y comprobación de datos
+meta_list_accounts          # también meta-rendimiento, meta-awareness, meta-creatividades
+instagram_list_accounts
+page_list
+ga4_list_properties
+google_ads_list_customers
+meta_insights               # también dashboard-marketing (datasets m_*, aw_*, cr_*)
+ga4_report                  # también dashboard-marketing (datasets ga_*)
+
+# dashboard-marketing: datasets del template
+instagram_insights
+instagram_media
+instagram_profile
+page_info
+page_insights
+page_posts

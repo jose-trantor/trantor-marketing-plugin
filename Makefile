@@ -42,8 +42,24 @@ help:
 	@echo "  claude-clean   - Elimina los zips del plugin de Claude"
 	@echo "  chatgpt-build  - Crea $(CHATGPT_DIST) (MCP: $(MCP_URL))"
 	@echo "  chatgpt-clean  - Elimina los zips del plugin de ChatGPT"
+	@$(MAKE) --no-print-directory help-dev
 
-claude-build:
+setup:
+	@git config merge.ours.driver true
+	@echo "✓ merge.ours.driver configurado"
+
+check-mcp:
+	@found=$$(grep -oF -e '$(MCP_URL_PROD)' -e '$(MCP_URL_STAGING)' claude/.mcp.json | head -1); \
+	if [ -z "$(CLAUDE_MCP_EXPECTED)" ]; then \
+		echo "ℹ claude/.mcp.json → $${found:-URL desconocida} (rama $(BRANCH): sin comprobación)"; \
+	elif [ "$$found" = "$(CLAUDE_MCP_EXPECTED)" ]; then \
+		echo "✓ claude/.mcp.json → $$found (rama $(BRANCH))"; \
+	else \
+		echo "✗ claude/.mcp.json apunta a $${found:-una URL desconocida}; en la rama $(BRANCH) debe ser $(CLAUDE_MCP_EXPECTED)"; \
+		exit 1; \
+	fi
+
+claude-build: check-mcp
 	@echo "→ Generando $(CLAUDE_DIST)..."
 	@mkdir -p $(OUT_DIR)
 	@rm -f $(CLAUDE_DIST)
@@ -73,3 +89,6 @@ chatgpt-clean:
 	@rm -f $(OUT_DIR)/trantor-marketing-chatgpt-*.zip
 	@rmdir $(OUT_DIR) 2>/dev/null || true
 	@echo "✓ Zips de ChatGPT eliminados"
+
+# Comandos de desarrollo del MCP. Al final para que `help` siga siendo el objetivo por defecto.
+include development.mk
