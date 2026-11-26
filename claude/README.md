@@ -12,15 +12,13 @@ Crea con Claude un dashboard de marketing en vivo a partir de tus cuentas de Met
 
 ## Pestañas disponibles
 
-| Skill | Pestaña instalada |
-|-------|-------------------|
-| **meta-rendimiento** | Meta · Rendimiento (impresiones, clics, coste, ROAS) |
-| **meta-awareness** | Meta · Awareness (alcance, frecuencia, CPM) |
-| **meta-creatividades** | Meta · Creatividades (rendimiento por creatividad) |
+| Skill | Pestañas instaladas |
+|-------|---------------------|
+| **meta-ads** | Meta · Rendimiento (impresiones, clics, coste, ROAS) · Awareness (alcance, frecuencia, CPM) · Creatividades (rendimiento por creatividad) |
 | **instagram** | Instagram (publicaciones, alcance, seguidores) |
 | **facebook** | Facebook (publicaciones, alcance, página) |
 | **ga4** | Web · GA4 (sesiones, canales, eventos, conversiones) |
-| **resumen** | Resumen (embudo global; se activa automáticamente con 2+ fuentes) |
+| **resumen** | Resumen (embudo global; se activa automáticamente con 2+ áreas) |
 
 Cada pestaña compara el periodo elegido con el anterior, muestra alertas por prioridad y señala qué funciona y qué no.
 
@@ -37,4 +35,6 @@ Para generar el zip del plugin, ejecuta `make claude-build` desde la raíz del r
 
 ## Datos
 
-Las consultas se hacen a través del conector Trantor, cada vez que alguien abre el dashboard y con las cuentas que esa persona ha autorizado: métricas de anuncios, publicaciones y analítica web. El plugin no guarda datos propios. El dashboard almacena su configuración (consultas, cálculos y textos) en un manifest que controla qué pestañas están visibles.
+El plugin no ejecuta código local ni hace llamadas de red por su cuenta. Toda la comunicación con fuentes externas ocurre a través del conector MCP `trantor`, que actúa como intermediario con las cuentas que el usuario ha autorizado en la plataforma Trantor: métricas de Meta Ads, publicaciones de Instagram y Facebook, y datos de Google Analytics 4. El conector solo accede a las cuentas que el propio usuario conecta y autoriza.
+
+El plugin no almacena datos de marketing propios. El artifact del dashboard guarda únicamente su configuración (parámetros de consulta, cálculos y textos escritos por Claude) en un manifest dentro del store de Claude, y no transmite nada fuera de ese entorno.
